@@ -1,0 +1,29 @@
+\documentclass[openany, twoside]{book}
+\usepackage{forallx,hyperref}
+
+\hypersetup{pdfinfo={Title={forall x}, Author={P.D. Magnus}, Subject={An open access introductory textbook in formal logic}, Keywords={propositional logic, predicate logic, formal semantics, proof}}, pdfborder = {0 0 0 0}, pdfdisplaydoctitle={true}}
+
+%\includeonly{app-answers}
+
+\begin{document}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\include{forallx-frontmatter}
+{
+\setlength{\parskip}{0em}
+\tableofcontents
+}
+\include{forallx-ch1-intro}
+\include{forallx-ch2-sentential}
+\include{forallx-ch3-truthtables}
+\include{forallx-ch4-predicate}
+\include{forallx-ch5-semantics}
+\include{forallx-ch6-proofs}
+\appendix
+\include{forallx-app-notation}
+\include{forallx-app-solutions}
+\include{forallx-app-quickreference}
+\include{forallx-backmatter}
+
+\end{document}

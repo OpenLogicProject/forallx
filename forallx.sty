@@ -1,0 +1,656 @@
+%!TEX root = forallx.tex
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{forallx}[2011/10/29 support for a logic textbook]
+\RequirePackage{amssymb,hyperref,multicol,ifthen}
+
+% The original forallx.sty was written in 2005
+
+%    ****************************************
+%    *            LOGICAL SYMBOLS           *
+%    ****************************************
+%
+% There are, of course, many different symbols used for the truth-functional
+% connectives. In order to make the book adaptable, the symbols are defined
+% here in the style sheet and these commands are used throughout the book.
+% To change conjunction from the ampersand to the carat, for instance,
+% change the definition of \eand from ~\&~ to \wedge. To change negation from
+% the hoe to the swung dash, change \enot from \neg to {\sim}. Other examples
+% are given below.
+%
+\def\therefore{\ensuremath{\ldotp\dot{}\,\ldotp}}
+% disjunction
+\def\eor{\ensuremath{\vee}}
+% conjunction: 
+% {\,^{_{_{_{_{\mbox{\footnotesize\textbullet}}}}}}} gives the dot
+\def\eand{\ensuremath{\,\&\,}}
+% conditional: \supset gives the horseshoe
+\def\eif{\ensuremath{\rightarrow}}
+% biconditional: \equiv gives the triple bar
+\def\eiff{\ensuremath{\leftrightarrow}}
+% negation: {\sim} gives the swung dash 
+\def\enot{\ensuremath{\neg}}
+
+
+
+%    ****************************************
+%    *        TITLE AND VERSION DATA        *
+%    ****************************************
+% the title of the book
+\newcommand*{\forallx}{{\tt forall\script{x}}}
+% The version number of the book is a 5 digit integer:
+% the last digit of the year, the month, the day of the month
+\newcounter{dummy}
+\setcounter{dummy}{\year}
+\addtocounter{dummy}{-2000}
+\newcommand*{\bookversion}{%
+	\ifthenelse{\arabic{dummy}<10}{0}{}%
+	\arabic{dummy}%
+	\ifthenelse{\month<10}{0}{}\number\month%
+	\ifthenelse{\day<10}{0}{}\number\day%
+}  
+
+
+
+%    ****************************************
+%    *       SYMBOLS AND SCRIPTY BITS       *
+%    ****************************************
+% equivalent to commenting something out, but usable on multiple lines
+\providecommand{\nix}[1]{}
+% script letters are rendered in Zapf Chancery,
+% which has both upper and lower case.
+\DeclareFontFamily{OT1}{pzc}{}
+\DeclareFontShape{OT1}{pzc}{m}{it}{<-> s * [1.200] pzcmi7t}{}
+\DeclareMathAlphabet{\mathscr}{OT1}{pzc}{m}{it}
+\newcommand*{\script}[1]{\ensuremath{\mathscr{#1}}}
+% create a blank
+\newcommand*{\blank}{\underline{\hspace*{2.5em}}}
+% These are included for discussing formal semantics in predicate logic.
+\newcommand*{\model}[1]{\ensuremath{\mathbb{#1}}}
+\newcommand*{\extension}[1]{\ensuremath{\mbox{extension}(#1)}}
+\newcommand*{\referent}[1]{\ensuremath{\mbox{referent}(#1)}}
+  % I personally dislike the default LaTeX angle brackets. I think that
+  % they are too narrow. If you want to use them, though, you can
+  % replace < and > in the commands below with \langle and \rangle
+\newcommand*{\openntuple}{<}
+\newcommand*{\closentuple}{>}
+\newcommand*{\ntuple}[1]{\mbox{\ensuremath{\mathopen{\openntuple}}#1\ensuremath{\mathclose{\closentuple}}}} 
+% definitions
+\newcommand*{\define}[1]{\textsc{\lowercase{#1}}}
+
+
+
+%    ****************************************
+%    *          LIST  ENVIRONMENTS          *
+%    ****************************************
+% The {earg} environment is used for arguments and example sentences.
+% The {ekey} environment is used for symbolization keys.
+\newcounter{eargnum}
+\newcounter{OLDeargnum}
+\newenvironment{earg}%
+{\begin{list}{\arabic{eargnum}.}{\usecounter{eargnum}\setlength{\itemsep}{-.4em}}}%
+{\setcounter{OLDeargnum}{\arabic{eargnum}}\end{list}}
+
+\newcommand{\ekeylabel}[1]{{\makebox[8ex][r]{\textbf{ #1}}}}
+\newenvironment{ekey}{\begin{list}{}{\renewcommand{\makelabel}{\ekeylabel}\setlength{\itemsep}{-.5em}}}{\end{list}}
+
+% Used in conjunction with {earg}, this handles the numbering and
+% references to example sentences:
+\newcounter{Example}[chapter]
+\newcommand*{\ex}[1]{\refstepcounter{Example}\arabic{Example}.\label{#1}}
+% Used in specifying partial models, this keeps the lines justified so
+% so that the = signs all line up. For example:
+%	\begin{partialmodel}
+%		UD			& \{Duke, Miles\}\\
+%		\extension{B}	& \{Duke\}
+%	\end{partialmodel}
+\newenvironment{partialmodel}{\par\begin{tabular}{r@{~=~}l}}{\end{tabular}\par}
+% define the bullet for {itemize} lists
+\renewcommand{\labelitemi}{$\triangleright$}
+
+% \factoidbox{...} produces an inset paragraph of text with a line around it
+% Neither for lists nor an environment, but it really didn't
+% belong anywhere else.
+\newcommand{\factoidbox}[1]{\begin{quote}\framebox{\parbox{\linewidth}{#1}}\end{quote}}
+
+% \tablefbox{...} is used in certain tables to put a box around the contents of specific table cells without having lines that run the whole length of the table
+\newcommand{\tablefbox}[1]{\multicolumn{1}{|p{10em}|}{#1}}
+
+
+
+%    ****************************************
+%    *          PRACTICE PROBLEMS           *
+%    ****************************************
+\newcounter{ProbPart}
+\renewcommand{\theProbPart}{\Alph{ProbPart}}
+% This inserts a heading and resets the counter:
+\newcommand*{\practiceproblems}{
+	\setcounter{ProbPart}{0}\section*{Practice Exercises}%
+	\addcontentsline{toc}{section}{Practice Exercises}
+}
+% This starts a new section which is automatically numbered:
+\newcommand*{\problempart}{
+	\refstepcounter{ProbPart}\textbf{Part \Alph{ProbPart}}\ 
+}
+% This bullet is used to indicate that solutions appear at the end of
+% the book.
+\newcommand*{\solutions}{$\star$}
+% When solutions are only given for selected problems, the
+% star is placed left of the problem number.
+\newcommand*{\leftsolutions}{\hspace{-2.2em}\makebox[2em][l]{\solutions}}
+
+% This is used at the beginning of a section in the solutions
+% appendix.
+\newcommand*{\solutionsection}[2]{%
+	\textbf{\textsc{Chapter {\ref{#1}} Part {\ref{#2}}}}%
+	\markright{solutions for ch.~\ref{#1}}%
+	\setcounter{countSeq}{0}
+}
+
+% This is used to enumerate things that have a given property.
+% For example: \nextSeq\nextSeq\noSeq\lastSeq are valid.
+% produces   : 1, 2, and 4 are valid.
+\newcounter{countSeq}
+\newcommand*{\nextSeq}{\stepcounter{countSeq}\arabic{countSeq}, }
+\newcommand*{\noSeq}{\stepcounter{countSeq}}
+\newcommand*{\lastSeq}{and \stepcounter{countSeq}\arabic{countSeq} }
+
+% This is used to place (eg) a partial model or proof as an item
+% in a list. Without it, the item tag will be vertically centered next
+% to the model or proof.
+%		--- doesn't actually work yet ---
+\newenvironment{solutioninlist}{}{}%{~\vspace{-1.6em}}{}
+
+
+%    ****************************************
+%    *         TABLE OF CONTENTS, ETC.      *
+%    ****************************************
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{1}
+\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+%\renewcommand{\thesubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}}
+
+\renewcommand{\chaptermark}[1]{\markboth%
+{\forallx}%
+{\textrm{ch.~\thechapter\ \lowercase{#1}}}%
+}
+\renewcommand{\sectionmark}[1]{}
+
+
+
+%    ****************************************
+%    *             TRUTH TABLES             *
+%    ****************************************
+
+% This facilitates the typesetting of truth tables by
+% effectively eliminating the intercolumn space.
+% This allows truth tables with the Ts and Fs immediately
+% below arbitrary connectives.
+% An example follows:
+%\begin{center}
+%\begin{tabular}{c|c|@{\TTon}*{5}{c}@{\TToff}}
+%$A$&$B$&$(A$&\eand&$B)$&\eif&A\\
+%\hline
+% T & T &    &  T  &    &  T & \\
+% T & F &    &  F  &    &  T & \\
+% F & T &    &  F  &    &  T & \\
+% F & F &    &  T  &    &  T &
+%\end{tabular}
+%\end{center}
+
+\newcommand*{\TTon}{\hspace{1.5em}\extracolsep{-1em}}
+\newcommand*{\TToff}{\extracolsep{-1em}\hspace{.3em}}
+\newcommand*{\TTbf}[1]{\textbf{\large #1}}
+
+
+
+%    ****************************************
+%    *                PROOFS                *
+%    ****************************************
+
+% notation to indicate substitution instances
+% A\substitute{x}{c} is the wff obtained by replacing all instances of x in A with c
+% A\substitutesome{x}{c} is a wff obtained by replacing some or all instances of x in A with c
+
+\newcommand{\substitute}[2]{\hspace{.15em}\raisebox{.3ex}{\fbox{\script{#1}$\Rightarrow$\script{#2}}}}
+\newcommand{\substitutesome}[2]{\hspace{.15em}\raisebox{.4ex}{\fbox{\fbox{\script{#1}$\Rightarrow$\script{#2}}}}}
+
+% based on fitch.sty by Peter Selinger, University of Ottawa
+% v 0.4, (C) 2002 Peter Selinger
+% revised 2003--5 by P.D. Magnus
+
+% Selinger released this code under the GNU General Public License,
+% version 2 or later. So this bit of the style is free to you under
+% the GPL.
+
+% ----------------------------------------------------------------------
+% The comments in this file are intended for programmers who
+% might want to hack this package. For information on how to use the
+% package, the file fitchdoc.tex is a better place to look.
+% ----------------------------------------------------------------------
+
+% Global identifiers defined by this package start with '\nd*'. The
+% only exceptions are \ndref, \nddim, and the "nd" and "ndresume"
+% latex environments.
+
+{\chardef\x=\catcode`\*
+\catcode`\*=11
+\global\let\nd*astcode\x}
+\catcode`\*=11
+
+% The macros provided by this package mix TeX and LaTeX primitives.
+% LaTeX is used for \rule, \settowidth, \addtolength, \hspace...
+% All macros are assumed to be called in math mode.
+
+% Translation proceeds through several layers of macros. Each layer
+% consist of macros which expand into macros of the previous
+% layer. Each layer may have some global state and initialization
+% functions. Only the topmost layer (layer C) is directly
+% user-accessible. 
+
+
+% References
+
+% We start with some macros to facilitate automatic line numbering, and
+% for referencing of lines by labels. The macros defined here are:
+% \nd*reset to reset the line number count. \nd*num{x}, to generate the next
+% line number and store it in reference x; \nd*ref{x} to print the line
+% number referenced by x, \ndref{xxx} to parse a list of references,
+% separated by commas, periods, and hyphens, and translate all references to
+% line numbers. Note: \ndref ignores spaces in its argument, but puts
+% a space after each comma or period in the output. Also note: \nd*ref can be
+% useful outside a natded environment, and thus it has a user
+% accessible name. Most general ``line numbers'' actually consist of a
+% name (such as ``n'') and a number (such as ``2''), to produce output
+% such as $n+2$. \nd*set{n}{m} is called to set the letter to n and
+% the number to m. As special cases, if the second argument is empty,
+% it is not set, and if the first argument is \relax, it is not set.
+
+% Example for references:
+
+% \nd*reset \nd*num{x}; \nd*num{y}; \nd*numopt{n+1}{z}; \nd*num{zz}; 
+% \nd*ref{y}; \ndref{x, y-zz, z}
+% will produce: 1; 2; n+1; 3; 2; 1, 2-3, n+1
+
+\newcount\nd*ctr
+\def\nd*render{\expandafter\ifx\expandafter\nd*x\nd*base\nd*x\the\nd*ctr\else\nd*base\ifnum\nd*ctr<0\the\nd*ctr\else\ifnum\nd*ctr>0+\the\nd*ctr\fi\fi\fi}
+\expandafter\def\csname nd*-\endcsname{}
+
+%\def\nd*num#1{\global\advance\nd*ctr1\nd*numo{\the\nd*ctr}{#1}}
+\def\nd*num#1{\nd*numo{\nd*render}{#1}\global\advance\nd*ctr1}
+\def\nd*numopt#1#2{\nd*numo{$#1$}{#2}}
+\def\nd*numo#1#2{\edef\x{#1}\mbox{$\x$}\expandafter\global\expandafter\let\csname nd*-#2\endcsname\x}
+\def\nd*ref#1{\expandafter\let\expandafter\x\csname nd*-#1\endcsname\ifx\x\relax%
+  \errmessage{Undefined natdeduction reference: #1}\else\mbox{$\x$}\fi}
+\def\nd*noop{}
+\def\nd*set#1#2{\ifx\relax#1\nd*noop\else\global\def\nd*base{#1}\fi\ifx\relax#2\relax\else\global\nd*ctr=#2\fi}
+\def\nd*reset{\nd*set{}{1}}
+\def\nd*refa#1{\nd*ref{#1}}
+\def\nd*aux#1#2{\ifx#2-\nd*refa{#1}--\def\c{\nd*aux{}}%
+  \else\ifx#2,\nd*refa{#1}, \def\c{\nd*aux{}}%
+  \else\ifx#2;\nd*refa{#1}; \def\c{\nd*aux{}}%
+  \else\ifx#2.\nd*refa{#1}. \def\c{\nd*aux{}}%
+  \else\ifx#2)\nd*refa{#1})\def\c{\nd*aux{}}%
+  \else\ifx#2(\nd*refa{#1}(\def\c{\nd*aux{}}%
+  \else\ifx#2\nd*end\nd*refa{#1}\def\c{}%
+  \else\def\c{\nd*aux{#1#2}}%
+  \fi\fi\fi\fi\fi\fi\fi\c}
+\def\ndref#1{\nd*aux{}#1\nd*end}
+
+
+% Layer A
+
+% Layer A provides primitive picture elements which can be combined
+% into natural deduction derivations. These are: \nd*t to make a
+% topmost vertical line segment; \nd*v to make a continuation vertical
+% line segment, \nd*i to produce the indentation for a subproof,
+% \nd*s to produce the horizontal space between a vertical line and a
+% formula, \nd*u{x} to underline x with appropriate spacing for a
+% hypothesis. \nd*f{x} typesets the formula x with the appropriate vertical
+% spacing. \nd*g{x} is like \nd*i, except it puts a guard in the
+% space it creates. These elements are spaced so that they are appropriate
+% as left-aligned array entries. Line numberings and justifications
+% must be provided manually in this layer. All explicit spacing
+% information is contained in this layer; higher layers manipulate only
+% layer A primitives.
+
+% define various dimensions (explained in fitchdoc.tex):
+\newlength{\nd*dim} 
+\newdimen\nd*depthdim
+\newdimen\nd*hsep
+% user command to redefine dimensions
+\def\nddim#1#2#3#4#5#6#7#8{\nd*depthdim=#3\relax\nd*hsep=#6\relax%
+\def\nd*height{#1}\def\nd*thickness{#8}\def\nd*initheight{#2}%
+\def\nd*indent{#5}\def\nd*labelsep{#4}\def\nd*justsep{#7}}
+% set initial dimensions
+\nddim{4.5ex}{3.5ex}{1.5ex}{1em}{1.6em}{.5em}{2.5em}{.2mm}
+
+\def\nd*v{\rule[-\nd*depthdim]{\nd*thickness}{\nd*height}}
+\def\nd*t{\rule[-\nd*depthdim]{0mm}{\nd*height}\rule[-\nd*depthdim]{\nd*thickness}{\nd*initheight}}
+\def\nd*i{\hspace{\nd*indent}} 
+\def\nd*s{\hspace{\nd*hsep}}
+\def\nd*g#1{\nd*f{\makebox[\nd*indent][c]{$#1$}}}
+\def\nd*f#1{\raisebox{0pt}[0pt][0pt]{$#1$}}
+\def\nd*u#1{\makebox[0pt][l]{\settowidth{\nd*dim}{\nd*f{#1}}%
+    \addtolength{\nd*dim}{2\nd*hsep}\hspace{-\nd*hsep}\rule[-\nd*depthdim]{\nd*dim}{\nd*thickness}}\nd*f{#1}}
+
+% Example of a derivation using layer A syntax:
+
+%\begin{array}{lll}
+%  1  &  \nd*t\nd*s\nd*f            {P\vee Q}                           \\
+%  2  &  \nd*v\nd*s\nd*u            {\neg Q}                            \\
+%  3  &  \nd*v\nd*i\nd*t\nd*s\nd*u  {P}                                 \\
+%  4  &  \nd*v\nd*i\nd*v\nd*s\nd*f  {P}       &  \mbox{by 3}            \\
+%  5  &  \nd*v\nd*i\nd*t\nd*s\nd*u  {Q}                                 \\
+%  6  &  \nd*v\nd*i\nd*v\nd*s\nd*f  {\neg Q}  &  \mbox{by 2}            \\
+%  7  &  \nd*v\nd*i\nd*v\nd*s\nd*f  {\bot}    &  \mbox{by 5, 6}         \\
+%  8  &  \nd*v\nd*i\nd*v\nd*s\nd*f  {P}       &  \mbox{by 7}            \\
+%  9  &  \nd*v\nd*s\nd*f            {P}       &  \mbox{by 1, 3-4, 5-8}  \\
+%\end{array}
+
+
+% Lists
+
+% This is a bit of a hack. We implement linked lists as follows: a
+% list is either \nd*nil, or \nd*cons{T}{H}, where T is another list,
+% and H is some arbitrary code. Note that lists grow to the right. 
+% The following macros operate on a list that is stored in a macro
+% \list. 
+% \nd*push\list{item} pushes the item onto the list
+% \nd*pop\list{item} pops and discards the last item from the list
+% \nd*item\list{command} applies command to each element of the list
+% \nd*modify\list\n{elt} modifies the \n-th element of the
+% list, if there is such an element. Here \n is a counter. Elements
+% are counted from the right, starting from 1.
+
+\def\nd*push#1#2{\expandafter\gdef\expandafter#1\expandafter%
+  {\expandafter\nd*cons\expandafter{#1}{#2}}}
+\def\nd*pop#1{{\def\nd*nil{\gdef#1{\nd*nil}}\def\nd*cons##1##2%
+    {\gdef#1{##1}}#1}}
+\def\nd*iter#1#2{{\def\nd*nil{}\def\nd*cons##1##2{##1#2{##2}}#1}}
+\def\nd*modify#1#2#3{{\def\nd*nil{\gdef#1{\nd*nil}}\def\nd*cons##1##2%
+    {\advance#2-1 ##1\advance#2 1 \ifnum#2=1\nd*push#1{#3}\else%
+      \nd*push#1{##2}\fi}#1}}
+
+% we use lists of items of the forms \nd*t, \nd*v, \nd*i, and
+% \nd*g{...} to represent the current indentation level and
+% format (see Layer A, above). The following function 
+% computes the indentation for the following line by replacing all
+% items of the form \nd*t by \nd*v and \nd*g{...} by \nd*i. 
+
+\def\nd*cont#1{{\def\nd*t{\nd*v}\def\nd*v{\nd*v}\def\nd*g##1{\nd*i}%
+    \def\nd*i{\nd*i}\def\nd*nil{\gdef#1{\nd*nil}}\def\nd*cons##1##2%
+    {##1\expandafter\nd*push\expandafter#1\expandafter{##2}}#1}}
+
+% With the list syntax, a derivation can be expressed like this:
+
+% \[\begin{array}{lll}
+%   \gdef\stack{\nd*nil}
+%   \newcount\n
+%   \nd*push\stack{\nd*t}
+%   1 & \nd*iter\stack\relax\nd*s\nd*u       {\neg\exists xP(x)} \\
+%   \nd*cont\stack
+%   \nd*push\stack{\nd*i}
+%   \nd*push\stack{\nd*t}
+%   \nd*n=2\nd*modify\stack\n{\nd*g{u}}
+%   \nd*push\stack{\nd*i}
+%   \nd*push\stack{\nd*t}
+%   2 & \nd*iter\stack\relax\nd*s\nd*u       {P(u)} \\
+%   \nd*cont\stack
+%   3 & \nd*iter\stack\relax\nd*s\nd*f       {\exists xP(x)} \\
+%   \nd*cont\stack
+%   4 & \nd*iter\stack\relax\nd*s\nd*f       {\neg\exists xP(x)} \\
+%   \nd*cont\stack
+%   5 & \nd*iter\stack\relax\nd*s\nd*f       {\bot} \\
+%   \nd*cont\stack
+%   \nd*pop\stack
+%   \nd*pop\stack
+%   6 & \nd*iter\stack\relax\nd*s\nd*f       {\neg P(u)} \\
+%   \nd*cont\stack
+%   \nd*pop\stack
+%   \nd*pop\stack
+%   7 & \nd*iter\stack\relax\nd*s\nd*f       {\forall y\neg P(y)} \\
+%   \nd*cont\stack
+%  \end{array}
+% \]
+
+
+% Layer B
+
+% Layer B is simply a wrapper around layer A. It provides commands
+% \nd*beginb, \nd*resumeb, \nd*endb, \nd*openb, \nd*closeb,
+% \nd*guardb, \nd*hypob, and \nd*haveb which abstract from the layer A 
+% primitives. This includes automatic line numbering, and automatic
+% indentation. \nd*beginb and \nd*endb enclose a natural deduction in
+% layer B syntax. \nd*resumeb is like \nd*beginb, except that it
+% resumes a deduction in progress (for instance, after a manual page
+% break). \nd*openb and \nd*closeb open, respectively close, a
+% subproof.  \nd*guardb{n}{g} adds the guard g to the nth enclosing
+% subderivation (counted from 1 from the inside). \nd*hypob 
+% introduces a hypothesis, and \nd*haveb introduces a non-hypothesis
+% line in a proof.  Line numbering is integrated, but justifications
+% must still be given manually. Also, proof lines must still be
+% terminated by '\\'. An idiosyncracy of this layer is that in a list
+% of several hypotheses, all but the last one must be called with
+% \nd*haveb, not \nd*hypob, to avoid drawing a horizontal line under
+% each of them.
+
+\newcount\nd*n
+\def\nd*beginb{\begingroup\nd*reset\gdef\nd*stack{\nd*nil}\nd*push\nd*stack{\nd*t}%
+  \begin{array}{l@{\hspace{\nd*labelsep}}l@{\hspace{\nd*justsep}}l}}
+\def\nd*resumeb{\begingroup\begin{array}{r@{\hspace{\nd*labelsep}}l@{\hspace{\nd*justsep}}l}}
+\def\nd*endb{\end{array}\endgroup}
+\def\nd*hypob#1#2{\nd*f{\nd*num{#1}}&\nd*iter\nd*stack\relax\nd*cont\nd*stack\nd*s\nd*u{#2}&}
+\def\nd*haveb#1#2{\nd*f{\nd*num{#1}}&\nd*iter\nd*stack\relax\nd*cont\nd*stack\nd*s\nd*f{#2}&}
+\def\nd*openb{\nd*push\nd*stack{\nd*i}\nd*push\nd*stack{\nd*t}}
+\def\nd*closeb{\nd*pop\nd*stack\nd*pop\nd*stack}
+\def\nd*guardb#1#2{\nd*n=#1\multiply\nd*n by 2 \nd*modify\nd*stack\nd*n{\nd*g{#2}}}
+
+% Example of a derivation using layer B syntax. Note that the "line
+% numbers" are really labels, which will be replaced by consecutive
+% line numbers in the output.
+
+% \[
+%   \nd*beginb
+%   \nd*haveb  {1}{P\vee Q}                               \\
+%   \nd*hypob  {2}{\neg Q}                                \\
+%   \nd*openb
+%   \nd*hypob  {3}{P}                                     \\
+%   \nd*haveb  {4}{P}       \mbox{by \ndref{3}}           \\
+%   \nd*closeb
+%   \nd*openb
+%   \nd*hypob  {5}{Q}                                     \\
+%   \nd*haveb  {6}{\neg Q}  \mbox{by \ndref{2}}           \\
+%   \nd*haveb  {6a}{\bot}   \mbox{by \ndref{5,6}}         \\
+%   \nd*haveb  {6b}{P}      \mbox{by \ndref{6a}}          \\
+%   \nd*closeb
+%   \nd*haveb  {8}{P}       \mbox{by \ndref{1,3-4,5-6b}}  \\
+%   \nd*endb
+% \]
+
+% Here is another example, using a guard.
+
+% \[
+%   \nd*beginb
+%   \nd*hypob  {1}{\neg\exists xP(x)}   \\
+%   \nd*openb
+%   \nd*guardb {1}{u}
+%   \nd*openb
+%   \nd*hypob  {2}{P(u)}                \\
+%   \nd*haveb  {3}{\exists xP(x)}       \mbox{by \ndref{2}}  \\
+%   \nd*haveb  {4}{\neg\exists xP(x)}   \mbox{by \ndref{1}}  \\
+%   \nd*haveb  {5}{\bot}                \mbox{by \ndref{3,4}}\\
+%   \nd*closeb
+%   \nd*haveb  {6}{\neg P(u)}           \mbox{by \ndref{2-5}}\\
+%   \nd*closeb
+%   \nd*haveb  {7}{\forall y\neg P(y)}  \mbox{by \ndref{2-6}}\\
+%   \nd*endb
+% \]
+
+
+% Layer C
+
+% Layer C is the syntax used by the end user. It is implemented as a
+% wrapper around layer B, providing six additional conveniences: 
+% (1) no more need for explicit '\\', (2) all hypotheses 
+% are denoted \hypo, (3) a convenient syntax for writing justification
+% labels, (4) a latex environment, (5) guard as optional argument to
+% \have, \hypo, or \open, (6) optional relabeling arguments. The user
+% level commands are similar to those of layer B: they are called
+% \begin{nd}, \end{nd}, \open, \close, \hypo, \have. In addition there
+% is a \by command for writing justification labels, in the style of
+% \by{$\vee$E}{1,2-4,5-6}. For convenience, a number of abbreviations
+% is also provided, for instance \ie for \by{$\Rightarrow$E}
+% etc. These commands are only visible inside an nd-environment; thus
+% they do not interfere with the global name space. There is also an
+% environment ndresume which is like nd, except that it continues a
+% proof in progress (with continuous nesting and labeling).
+
+% The layer C macros work by storing each line in a data structure
+% \ppp,\nd*typ,\nd*byt. The line is ejected when the beginning of the next
+% line is read, and once at the very end. In this way, we can put in
+% the correct line breaks (whether or not the line carries a
+% justification), and a hypothesis does not get typeset until we know
+% whether it is followed by another hypothesis. \nd*sto stores a new
+% line, \nd*clr clears the current line, \nd*cmd outputs the current
+% line. Finally, \nd*init puts all the commands which are visible
+% inside an nd-environment in the current name space.
+
+\def\nd*clr{\gdef\nd*cmd{}}
+\def\nd*sto#1#2#3{\gdef\nd*typ{#1}\gdef\nd*byt{}%
+  \gdef\nd*cmd{\nd*typ{#2}{#3}\nd*byt\\}}
+\def\nd*hyc#1#2{\def\nd*typ{\nd*haveb}\nd*cmd\nd*sto{\nd*hypob}{#1}{#2}}
+\def\nd*hac#1#2{\nd*cmd\nd*sto{\nd*haveb}{#1}{#2}}
+
+% usage: \optarg{default}{continuation}xxx - reads an optional argument, 
+% supplies default if necessary, then continues with continuation. 
+% Continuation expects optional argument between [...]. I.e., 
+% \optarg{d}{c}[xxx] => c[xxx], and \optarg{d}{c}x => c[d]x if x != '['. 
+% Behavior is undefined if x is {[...}. \optargg is similar except it 
+% takes two continuations: first one for optional argument present, second 
+% for not present. It takes no default value.
+
+\def\optarg#1#2#3{\ifx[#3\def\c{#2#3}\else\def\c{#2[#1]{#3}}\fi\c}
+\def\optargg#1#2#3{\ifx[#3\def\c{#1#3}\else\def\c{#2{#3}}\fi\c}
+
+\def\nd*hyx[#1][#2]#3[#4]#5{\ifx\relax#4\relax\else\nd*guardb{1}{#4}\fi\nd*hyc{#3}{#5}\nd*set{#1}{#2}}
+\def\nd*hax[#1][#2]#3[#4]#5{\ifx\relax#4\relax\else\nd*guardb{1}{#4}\fi\nd*hac{#3}{#5}\nd*set{#1}{#2}}
+
+% \nd*five{\a}: read five, partly optional arguments of the shape [][]{}[]{}, 
+% then call \a with these arguments.
+\def\nd*five#1{\optargg{\nd*four{#1}}{\nd*two{#1}}}
+\def\nd*four#1[#2]{\optarg{0}{\nd*three{#1}[#2]}}
+\def\nd*three#1[#2][#3]#4{\optarg{}{#1[#2][#3]{#4}}}
+\def\nd*two#1{\nd*three{#1}[\relax][]}
+
+\def\nd*have{\nd*five{\nd*hax}}
+\def\nd*hypo{\nd*five{\nd*hyx}}
+\def\nd*base{undefined}
+
+\def\nd*open{\optargg{\nd*openopt}{\nd*opennoopt}}
+\def\nd*openopt[#1]{\nd*cmd\nd*clr\nd*openb\nd*guard{#1}}
+\def\nd*opennoopt#1{\nd*cmd\nd*clr\nd*openb#1}
+\def\nd*close{\nd*cmd\nd*clr\nd*closeb}
+\def\nd*guard{\optarg{1}{\nd*guardc}}
+\def\nd*guardc[#1]#2{\nd*guardb{#1}{#2}}
+
+\def\nd*by#1#2{\ifx\nd*x#2\nd*x\gdef\nd*byt{\mbox{#1}}\else\gdef\nd*byt{\mbox{#1\ \ndref{#2}}}\fi}
+
+% * * *
+% This block defines the natural deduction rules.
+% Rules designated by ordinary letters may be specified with \by{RULE}
+% * * *
+
+\def\nd*init{%
+  \let\open\nd*open%
+  \let\close\nd*close%
+  \let\hypo\nd*hypo%
+  \let\have\nd*have%
+  \let\by\nd*by%
+  \let\guard\nd*guard%
+  \def\bi{\by{{\eiff}I}}%
+  \def\be{\by{{\eiff}E}}%
+  \def\ci{\by{{\eif}I}}%
+  \def\ce{\by{{\eif}E}}%
+  \def\Ai{\by{$\forall$I}}%
+  \def\Ae{\by{$\forall$E}}%
+  \def\Ei{\by{$\exists$I}}%
+  \def\Ee{\by{$\exists$E}}%
+  \def\ae{\by{{\eand}E}}%
+  \def\ai{\by{{\eand}I}}%
+  \def\oi{\by{{\eor}I}}%
+  \def\oe{\by{{\eor}E}}%
+  \def\ni{\by{{\enot}I}}%
+  \def\ne{\by{{\enot}E}}%
+  \def\ii{\by{$=$I}}%
+  \def\ie{\by{$=$E}}%
+}
+\newenvironment{nd}{\begingroup\nd*init\nd*beginb\nd*clr}{\nd*cmd\nd*endb\endgroup}
+\newenvironment{ndresume}{\begingroup\nd*init\nd*resumeb\nd*clr}%
+  {\nd*cmd\nd*endb\endgroup}
+
+% Example of a derivation using layer C syntax. As before, the "line
+% numbers" are really labels, which will be replaced by consecutive
+% line numbers in the output.
+
+% \[
+% \begin{nd}
+%   \hypo{1}  {P\vee Q}   
+%   \hypo{2}  {\neg Q}                         
+%   \open                              
+%   \hypo{3a} {P}
+%   \have{3b} {P}        \r{3a}
+%   \close                   
+%   \open
+%   \hypo{4a} {Q}
+%   \have{4b} {\neg Q}   \r{2}
+%   \have{4c} {\bot}     \ne{4a,4b}
+%   \have{4d} {P}        \be{4c}
+%   \close                             
+%   \have{5}  {P}        \oe{1,3a-3b,4a-4d}                 
+% \end{nd}
+% \]
+
+% Another example of layer C syntax, using guards and relabelings:
+
+% \begin{nd}
+%   \hypo          {1} {P\vee Q}
+%   \open
+%   \hypo          {2}[u] {P}
+%   \have [\vdots] {3} {\vdots}
+%   \have [n][-1]  {4} {A\wedge B}
+%   \close
+%   \open
+%   \hypo          {5} {Q}
+%   \have [\vdots] {6} {\vdots}
+%   \have [m]      {7} {A\wedge B}
+%   \close
+%   \have          {8} {A\wedge B}  \oe{1,2-(4),5-7}
+%   \have [\vdots] {9} {\vdots}
+%   \have [][100] {10} {A}          \ae{8}
+% \end{nd}
+
+\catcode`\*=\nd*astcode
+
+% a command for indicating the goal in a proof or subproof
+\newcommand*{\want}[1]{\by{want \ensuremath{#1}}{}}
+% an environment that separates the proof from surrounding paragraphs
+\newenvironment{proof}{\par$\begin{nd}}{\end{nd}$\par}
+
+% I keep mixing up the \ce and \ae commands, so I define a less ambiguous
+% alternate set of commands
+
+\newcommand*{\notI}{\ni}
+\newcommand*{\notE}{\ne}
+\newcommand*{\iffI}{\bi}
+\newcommand*{\iffE}{\be}
+\newcommand*{\ifI}{\ci}
+\newcommand*{\ifE}{\ce}
+\newcommand*{\andI}{\ai}
+\newcommand*{\andE}{\ae}
+\newcommand*{\orI}{\oi}
+\newcommand*{\orE}{\oe}
+\newcommand*{\forallI}{\Ai}
+\newcommand*{\forallE}{\Ae}
+\newcommand*{\existsI}{\Ei}
+\newcommand*{\existsE}{\Ee}

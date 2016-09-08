@@ -1,0 +1,445 @@
+%!TEX root = forallx.tex
+\addcontentsline{toc}{chapter}{C\ Quick Reference}
+\pagestyle{plain}
+{\LARGE \bf Quick Reference}
+
+%\section*{Characteristic Truth Tables}
+\label{app.CharacteristicTTs}
+
+\hfill
+\begin{tabular}{c|c}
+\script{A} & \enot\script{A}\\
+\hline
+T & F\\
+F & T 
+\end{tabular}
+\hfill
+\begin{tabular}{c|c|c|c|c|c}
+\script{A} & \script{B} & \script{A}\eand\script{B} & \script{A}\eor\script{B} & \script{A}\eif\script{B} & \script{A}\eiff\script{B}\\
+\hline
+T & T & T & T & T & T\\
+T & F & F & T & F & F\\
+F & T & F & T & T & F\\
+F & F & F & F & T & T
+\end{tabular}
+\hfill
+
+\vfill
+
+
+\hfill
+\begin{tabular}{c|c}
+\script{A} & \enot\script{A}\\
+\hline
+1 & 0\\
+0 & 1 
+\end{tabular}
+\hfill
+\begin{tabular}{c|c|c|c|c|c}
+\script{A} & \script{B} & \script{A}\eand\script{B} & \script{A}\eor\script{B} & \script{A}\eif\script{B} & \script{A}\eiff\script{B}\\
+\hline
+1 & 1 & 1 & 1 & 1 & 1\\
+1 & 0 & 0 & 1 & 0 & 0\\
+0 & 1 & 0 & 1 & 1 & 0\\
+0 & 0 & 0 & 0 & 1 & 1
+\end{tabular}
+\hfill
+
+\vfill
+
+
+\section*{Symbolization}
+\begin{center}
+\label{app.symbolization}
+\begin{tabular*}{\textwidth}{rl}
+\multicolumn{2}{c}{\textsc{Sentential Connectives} (chapter \ref{ch.SL})}\\ \\
+It is not the case that $P$. & $\enot P$\\
+Either $P$, or $Q$. & $(P \eor Q)$\\
+Neither $P$, nor $Q$. & $\enot(P \eor Q)$\ or \ $(\enot P \eand \enot Q)$\\
+Both $P$, and $Q$. & $(P \eand Q)$\\
+If $P$, then $Q$. & $(P \eif Q)$\\
+$P$ only if $Q$. & $(P \eif Q)$\\
+$P$ if and only if $Q$. & $(P \eiff Q)$\\
+Unless $P$, $Q$. $P$ unless $Q$. & $(P \eor Q)$\\
+\\
+\multicolumn{2}{c}{\label{SymbolizingPredicates}\textsc{Predicates} (chapter \ref{ch.QL})}\\ \\
+All $F$s are $G$s. & $\forall x(Fx \eif Gx)$\\
+Some $F$s are $G$s. & $\exists x(Fx \eand Gx)$\\
+Not all $F$s are $G$s. & $\enot\forall x(Fx \eif Gx)$\ or\ $\exists x(Fx \eand \enot Gx)$\\
+No $F$s are $G$s. & $\forall x(Fx \eif\enot Gx)$\ or\ $\enot\exists x(Fx \eand Gx)$\\
+\\
+\multicolumn{2}{c}{\textsc{Identity} (section \ref{sec.identity})}\\ \\
+Only $j$ is $G$. & $\forall x(Gx \eiff x=j)$\\
+Everything besides $j$ is $G$. & $\forall x(x \neq j \eif Gx)$\\
+%$j$ is more $R$ than anyone else. & $\forall x(x\neq j \eif Rjx)$\\
+The $F$ is $G$. & $\exists x(Fx \eand \forall y(Fy \eif x=y) \eand Gx)$\\
+\multicolumn{2}{l}{`The F is not G' can be translated two ways:} \\
+It is not the case that the F is G. (wide)& $\enot\exists x(Fx \eand \forall y(Fy \eif x=y) \eand Gx)$\\
+The $F$ is non-$G$. (narrow) & $\exists x(Fx \eand \forall y(Fy \eif x=y) \eand \enot Gx)$
+\end{tabular*}
+\end{center}
+
+
+
+
+
+
+% BEGIN: symbolizing cardinality
+
+\newpage
+\section*{Using identity to symbolize quantities}
+
+\subsection*{There are at least \blank\ $F$s.}
+\label{summary.atleast}
+
+\begin{ekey}
+\item[one] $\exists xFx$
+\item[two] $\exists x_1\exists x_2(Fx_1 \eand Fx_2 \eand x_1 \neq x_2)$
+\item[three] $\exists x_1\exists x_2\exists x_3(Fx_1 \eand Fx_2 \eand Fx_3 \eand x_1 \neq x_2 \eand x_1 \neq x_3 \eand x_2 \neq x_3)$
+\item[four] $\exists x_1\exists x_2\exists x_3\exists x_4 (Fx_1 \eand Fx_2 \eand Fx_3 \eand Fx_4 \eand x_1 \neq x_2 \eand x_1 \neq x_3 \eand x_1 \neq x_4 \eand x_2 \neq x_3 \eand x_2 \neq x_4 \eand x_3 \neq x_4)$
+\item[n] $\exists x_1\cdots\exists x_n(Fx_1 \eand\cdots\eand Fx_n \eand x_1 \neq x_2 \eand\cdots\eand x_{n-1}\neq x_n)$ 
+\end{ekey}
+
+\subsection*{There are at most \blank\ $F$s.}
+\label{summary.atmost}
+
+One way to say `at most $n$ things are $F$' is to put a negation sign in front of one of the symbolizations above and say $\enot$`at least $n+1$ things are $F$.' Equivalently:
+\begin{ekey}
+\item[one] $\forall x_1\forall x_2\bigl[(Fx_1 \eand Fx_2) \eif x_1=x_2\bigr]$
+\item[two] $\forall x_1\forall x_2\forall x_3\bigl[(Fx_1 \eand Fx_2 \eand Fx_3) \eif (x_1=x_2 \eor x_1=x_3 \eor x_2=x_3)\bigr]$
+\item[three] $\forall x_1\forall x_2\forall x_3\forall x_4\bigl[(Fx_1 \eand Fx_2 \eand Fx_3 \eand Fx_4) \eif (x_1=x_2 \eor x_1=x_3 \eor x_1=x_4 \eor x_2=x_3 \eor x_2=x_4 \eor x_3=x_4)\bigr]$
+\item[n]$\forall x_1\cdots\forall x_{n+1}
+\bigl[(Fx_1\eand \cdots \eand Fx_{n+1}) \eif (x_1=x_2 \eor \cdots \eor x_n=x_{n+1})\bigr]$ 
+\end{ekey}
+
+\subsection*{There are exactly \blank\ $F$s.}
+\label{summary.exactly}
+
+One way to say `exactly $n$ things are $F$' is to conjoin two of the symbolizations above and say `at least $n$ things are $F$' \eand\ `at most $n$ things are $F$.' The following equivalent formulae are shorter:
+\begin{ekey}
+\item[zero] $\forall x\enot Fx$
+\item[one] $\exists x\bigl[Fx \eand \enot\exists y(Fy \eand x\neq y)\bigr]$
+\item[two] $\exists x_1\exists x_2\bigl[Fx_1 \eand Fx_2 \eand x_1 \neq x_2 \eand \enot\exists y\bigl(Fy \eand y\neq x_1 \eand y \neq x_2\bigr) \bigr]$
+\item[three] $\exists x_1\exists x_2\exists x_3\bigl[Fx_1 \eand Fx_2 \eand Fx_3 \eand x_1 \neq x_2 \eand x_1 \neq x_3 \eand x_2 \neq x_3 \eand\\
+\enot\exists y(Fy \eand y \neq x_1 \eand y \neq x_2 \eand y\neq x_3) \bigr]$
+\item[n] $\exists x_1\cdots\exists x_n\bigl[Fx_1 \eand\cdots\eand Fx_n  \eand x_1 \neq x_2 \eand\cdots\eand x_{n-1}\neq x_n \eand\\
+ \enot\exists y(Fy \eand y\neq x_1 \eand \cdots \eand y\neq x_n)\bigr]$ 
+%\item[one] $\exists x\forall y\bigl[Fx \eand (Fy \eif y = x)\bigr]$
+%\item[two] $\exists x\exists y\forall z\Bigl(Fx \eand Fy \eand \bigl[Fz \eif (z=x \eor z=y)\bigr] \eand x \neq y\Bigr)$
+%\item[three] $\exists x_1\exists x_2\exists x_3\forall y\Bigl(Fx_1 \eand Fx_2 \eand Fx_3 \eand [Fy \eif (y=x_1 \eor y=x_2 \eor y=x_3)] \eand x_1 \neq x_2 \eand x_1 \neq x_3 \eand x_2 \neq x_3\Bigr)$
+%\item[n] $\exists x_1\cdots\exists x_n\forall y\Bigl(Fx_1 \eand\cdots\eand Fx_n \eand \bigl[Fy \eif (y=x_1 \eor \cdots \eor y=x_n)\bigr] \eand x_1 \neq x_2 \eand\cdots\eand x_{n-1}\neq x_n\Bigr)$ 
+\end{ekey}
+
+\subsection*{Specifying the size of the UD}
+
+Removing $F$ from the symbolizations above produces sentences that talk about the size of the UD. For instance, `there are at least 2 things (in the UD)' may be symbolized as $\exists x\exists y(x \neq y)$.
+
+
+
+
+
+
+%  BEGIN: Rules of proof
+% change margins so that all the rules will fit
+\setlength{\topmargin}{0 in}
+\setlength{\headheight}{0 in}
+\setlength{\headsep}{0 in}
+\setlength{\textheight}{9 in}
+\setlength{\evensidemargin}{0.25 in}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\textwidth}{6 in}
+\newpage
+% This starts a new page and skips a page if necessary so as
+% to start on an even numbered page.
+% That way, the rules of proof will be on facing pages.
+% It fills it in with a somewhat gratuitous reference table.
+\ifthenelse{\isodd{\thepage}}{
+%	\ \vspace{2 in}\par\centerline{[ This page intentionally left blank. ]}
+\begin{table}
+	Sometimes it is easier to show something by providing proofs than it is by providing models. Sometimes it is the other way round.
+	\begin{center}
+	\begin{tabular*}{\textwidth}{p{10em}|p{10em}|p{10em}|}
+	\cline{2-3}
+	 & {\centerline{YES}} & {\centerline{NO}}\\
+	\cline{2-3}
+	Is \script{A} a tautology? & prove $\vdash\script{A}$ & give a model in which \script{A} is false\\
+	\cline{2-3}
+	Is \script{A} a contradiction? &  prove $\vdash\enot\script{A}$ & give a model in which \script{A} is true\\
+	\cline{2-3}
+	Is \script{A} contingent? & give a model in which \script{A} is true and another in which \script{A} is false & prove $\vdash\script{A}$ or $\vdash\enot\script{A}$\\
+	\cline{2-3}
+	Are \script{A} and \script{B} equivalent? & prove \mbox{$\script{A}\vdash\script{B}$} and \mbox{$\script{B}\vdash\script{A}$}  & give a model in which \script{A} and \script{B} have different truth values\\
+	\cline{2-3}
+	Is the set \model{A} consistent? & give a model in which all the sentences in \model{A} are true & taking the sentences in \model{A}, prove \script{B} and \enot\script{B}\\
+	\cline{2-3}
+	Is the argument \mbox{`\script{P}, \therefore\ \script{C}'} valid? & prove $\script{P}\vdash\script{C}$ & give a model in which \script{P} is true and \script{C} is false\\
+	\cline{2-3}
+	\end{tabular*}
+	\end{center}
+\end{table}
+	
+	\newpage
+}{}
+% eliminate page numbers
+\pagestyle{empty}
+\twocolumn
+
+\label{ProofRules}
+{\LARGE \bf Basic Rules of Proof}
+
+\textsc{Reiteration}
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{c}{\script{A}} \by{R}{a}
+\end{proof}
+
+
+\textsc{Conjunction Introduction}
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[n]{b}{\script{B}}
+	\have[\ ]{c}{\script{A}\eand\script{B}} \ai{a, b}
+\end{proof}
+
+\textsc{Conjunction Elimination}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eand\script{B}}
+	\have[\ ]{a}{\script{A}} \ae{ab}
+	\have[\ ]{b}{\script{B}} \ae{ab}
+\end{proof}
+
+
+\textsc{Disjunction Introduction}
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{ab}{\script{A}\eor\script{B}}\oi{a}
+	\have[\ ]{ba}{\script{B}\eor\script{A}}\oi{a}
+\end{proof}
+
+\textsc{Disjunction Elimination}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eor\script{B}}
+	\have[n]{nb}{\enot\script{B}}
+	\have[\ ]{a}{\script{A}} \oe{ab,nb}
+\end{proof}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eor\script{B}}
+	\have[n]{na}{\enot\script{A}}
+	\have[\ ]{b}{\script{B}} \oe{ab,nb}
+\end{proof}
+
+
+\textsc{Conditional Introduction}
+
+\nopagebreak
+\begin{proof}
+	\open
+		\hypo[m]{a}{\script{A}} \by{want \script{B}}{}
+		\have[n]{b}{\script{B}}
+	\close
+	\have[\ ]{ab}{\script{A}\eif\script{B}}\ci{a-b}
+\end{proof}
+
+\pagebreak
+\textsc{Conditional Elimination}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eif\script{B}}
+	\have[n]{a}{\script{A}}
+	\have[\ ]{b}{\script{B}} \ce{ab,a}
+\end{proof}
+
+\textsc{Biconditional Introduction}
+
+\begin{proof}
+	\open
+		\hypo[m]{a1}{\script{A}} \by{want \script{B}}{}
+		\have[n]{b1}{\script{B}}
+	\close
+	\open
+		\hypo[p]{b2}{\script{B}} \by{want \script{A}}{}
+		\have[q]{a2}{\script{A}}
+	\close
+	\have[\ ]{ab}{\script{A}\eiff\script{B}}\bi{a1-b1,b2-a2}
+\end{proof}
+
+\textsc{Biconditional Elimination}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eiff\script{B}}
+	\have[n]{a}{\script{B}}
+	\have[\ ]{b}{\script{A}} \be{ab,a}
+\end{proof}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eiff\script{B}}
+	\have[n]{a}{\script{A}}
+	\have[\ ]{b}{\script{B}} \be{ab,a}
+\end{proof}
+
+
+
+\textsc{Negation Introduction}
+
+\begin{proof}
+	\open
+		\hypo[m]{a}{\script{A}} \by{for reductio}{}
+		\have[n][-1]{b}{\script{B}}
+		\have{nb}{\enot\script{B}}
+	\close
+	\have[\ ]{na}{\enot\script{A}}\ni{a-nb}
+\end{proof}
+
+\textsc{Negation Elimination}
+
+\begin{proof}
+	\open
+		\hypo[m]{na}{\enot\script{A}} \by{for reductio}{}
+		\have[n][-1]{b}{\script{B}}
+		\have{nb}{\enot\script{B}}
+	\close
+	\have[\ ]{a}{\script{A}}\ne{na-nb}
+\end{proof}
+
+
+
+
+
+
+
+
+\newpage
+
+{\LARGE \bf Quantifier Rules}
+
+\textsc{Existential Introduction}
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{c}{\exists \script{x}\script{A}\substitutesome{c^\ast}{x}} \Ei{a}
+\end{proof}
+
+$^\ast$ \script{x} may replace some or all occurrences of \script{c} in \script{A}.
+
+
+
+\textsc{Existential Elimination}
+
+\begin{proof}
+	\have[m]{a}{\exists \script{x}\script{A}}
+	\open	
+		\hypo[n]{b}{\script{A}\substitute{x}{c^\ast}}
+		\have[p]{c}{\script{B}}
+	\close
+	\have[\ ]{d}{\script{B}} \Ee{a,b-c}
+\end{proof}
+
+$^\ast$ \script{c} must not appear outside the subproof.
+
+\textsc{Universal Introduction}
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{c}{\forall \script{x}\script{A}\substitute{c}{x}} \Ai{a}
+\end{proof}
+
+\script{c} must not occur in any undischarged assumptions.
+
+
+\textsc{Universal Elimination}
+
+\begin{proof}
+	\have[m]{a}{\forall \script{x}\script{A}}
+	\have[\ ]{c}{\script{A}\substitute{x}{c}} \Ae{a}
+\end{proof}
+
+
+
+
+{\LARGE \bf Identity Rules}
+
+\begin{proof}
+	\have[\ \,\,\,]{x}{\script{c}=\script{c}} \by{=I}{}
+\end{proof}
+
+\begin{proof}
+	\have[m]{e}{\script{c}=\script{d}}
+	\have[n]{a}{\script{A}}
+	\have[\ ]{ea1}{\script{A}\substitutesome{c}{d}} \by{=E}{e,a}
+	\have[\ ]{ea2}{\script{A}\substitutesome{d}{c}} \by{=E}{e,a}
+\end{proof}
+
+One constant may replace some or all occurrences of the other.
+
+
+
+
+
+\newpage
+
+{\LARGE \bf Derived Rules}
+
+\textsc{Dilemma}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eor\script{B}}
+	\have[n]{ac}{\script{A}\eif\script{C}}
+	\have[p]{bc}{\script{B}\eif\script{C}}
+	\have[\ ]{a}{\script{C}} \by{DIL}{ab,ac,bc}
+\end{proof}
+
+\textsc{Modus Tollens}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eif\script{B}}
+	\have[n]{a}{\enot\script{B}}
+	\have[\ ]{b}{\enot\script{A}} \by{MT}{ab,a}
+\end{proof}
+
+\textsc{Hypothetical Syllogism}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eif\script{B}}
+	\have[n]{bc}{\script{B}\eif\script{C}}
+	\have[\ ]{ac}{\script{A}\eif\script{C}}\by{HS}{ab,bc}
+\end{proof}
+
+
+
+{\LARGE \bf Replacement Rules}
+{
+\center
+
+\textsc{Commutivity} (Comm)\\
+$(\script{A}\eand\script{B}) \Longleftrightarrow (\script{B}\eand\script{A})$\\
+$(\script{A}\eor\script{B}) \Longleftrightarrow (\script{B}\eor\script{A})$\\
+$(\script{A}\eiff\script{B}) \Longleftrightarrow (\script{B}\eiff\script{A})$
+
+\textsc{DeMorgan} (DeM)\\
+$\enot(\script{A}\eor\script{B}) \Longleftrightarrow (\enot\script{A}\eand\enot\script{B})$\\
+$\enot(\script{A}\eand\script{B}) \Longleftrightarrow (\enot\script{A}\eor\enot\script{B})$
+
+\textsc{Double Negation} (DN)\\
+$\enot\enot\script{A} \Longleftrightarrow \script{A}$
+
+\textsc{Material Conditional} (MC)\\
+$(\script{A}\eif\script{B}) \Longleftrightarrow (\enot\script{A}\eor\script{B})$\\
+$(\script{A}\eor\script{B}) \Longleftrightarrow (\enot\script{A}\eif\script{B})$
+
+\textsc{Biconditional Exchange} ({\eiff}{ex})\\
+$[(\script{A}\eif\script{B})\eand(\script{B}\eif\script{A})] \Longleftrightarrow (\script{A}\eiff\script{B})$
+
+\textsc{Quantifier Negation} (QN)\\
+$\enot\forall\script{x}\script{A} \Longleftrightarrow \exists\script{x}\enot\script{A}$\\
+$\enot\exists\script{x}\script{A} \Longleftrightarrow \forall\script{x}\enot\script{A}$
+
+}
+
+
+

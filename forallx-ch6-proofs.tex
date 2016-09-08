@@ -1,0 +1,1321 @@
+%!TEX root = forallx.tex
+\chapter{Proofs}
+\label{ch.proofs}
+
+Consider two arguments in SL:
+
+\begin{multicols}{2}
+Argument A
+\begin{earg}
+\item[] $P \eor Q$
+\item[] $\enot P$
+\item[\therefore] Q
+\end{earg}
+
+Argument B
+\begin{earg}
+\item[] $P \eif Q$
+\item[] $P$
+\item[\therefore] Q
+\end{earg}
+
+\end{multicols}
+
+Clearly, these are valid arguments. You can confirm that they are valid by constructing four-line truth tables. Argument A makes use of an inference form that is always valid: Given a disjunction and the negation of one of the disjuncts, the other disjunct follows as a valid consequence. This rule is called \emph{disjunctive syllogism}.
+
+Argument B makes use of a different valid form: Given a conditional and its antecedent, the consequent follows as a valid consequence. This is called \emph{modus ponens}.
+
+ When we construct truth tables, we do not need to give names to different inference forms. There is no reason to distinguish modus ponens from a disjunctive syllogism. For this same reason, however, the method of truth tables does not clearly show \emph{why} an argument is valid. If you were to do a 1024-line truth table for an argument that contains ten sentence letters, then you could check to see if there were any lines on which the premises were all true and the conclusion were false. If you did not see such a line and provided you made no mistakes in constructing the table, then you would know that the argument was valid. Yet you would not be able to say anything further about why this particular argument was a valid argument form.
+
+The aim of a \emph{proof system} is to show that particular arguments are valid in a way that allows us to understand the reasoning involved in the argument. We begin with basic argument forms, like disjunctive syllogism and modus ponens. These forms can then be combined to make more complicated arguments, like this one:
+\begin{earg}
+\item[(1)] $\enot L \eif (J \eor L)$
+\item[(2)] $\enot L$
+\item[\therefore] $J$
+\end{earg}
+By modus ponens, (1) and (2) entail $J \eor L$. This is an \emph{intermediate conclusion}. It follows logically from the premises, but it is not the conclusion we want. Now $J \eor L$ and (2) entail $J$, by disjunctive syllogism. We do not need a new rule for this argument. The proof of the argument shows that it is really just a combination of rules we have already introduced.
+
+Formally, a \define{proof} is a sequence of sentences. The first sentences of the sequence are assumptions; these are the premises of the argument. Every sentence later in the sequence follows from earlier sentences by one of the rules of proof. The final sentence of the sequence is the conclusion of the argument.
+
+This chapter begins with a proof system for SL, which is then extended to cover QL and QL plus identity.
+
+
+\section{Basic rules for SL}
+
+In designing a proof system, we could just start with disjunctive syllogism and modus ponens. Whenever we discovered a valid argument which could not be proven with rules we already had, we could introduce new rules. Proceeding in this way, we would have an unsystematic grab bag of rules. We might accidently add some strange rules, and we would surely end up with more rules than we need.
+
+Instead, we will develop what is called a \define{natural deduction} system. In a natural deduction system, there will be two rules for each logical operator: an \define{introduction} rule that allows us to prove a sentence that has it as the main logical operator and an \define{elimination} rule that allows us to prove something given a sentence that has it as the main logical operator.
+
+In addition to the rules for each logical operator, we will also have a reiteration rule. If you already have shown something in the course of a proof, the reiteration rule allows you to repeat it on a new line. For instance:
+
+\begin{proof}
+	\have{a1}{\script{A}}
+	\have{a2}{\script{A}} \by{R}{a1}
+\end{proof}
+
+When we add a line to a proof, we write the rule that justifies that line. We also write the numbers of the lines to which the rule was applied. The reiteration rule above is justified by one line, the line that you are reiterating. So the `R 1' on line 2 of the proof means that the line is justified by the reiteration rule (R) applied to line 1.
+
+Obviously, the reiteration rule will not allow us to show anything \emph{new}. For that, we will need more rules. The remainder of this section will give introduction and elimination rules for all of the sentential connectives. This will give us a complete proof system for SL. Later in the chapter, we introduce rules for quantifiers and identity.
+
+All of the rules introduced in this chapter are summarized starting on p.~\pageref{ProofRules}.
+
+
+\subsection{Conjunction}
+
+Think for a moment: What would you need to show in order to prove $E \eand F$?
+
+Of course, you could show $E \eand F$ by proving $E$ and separately proving $F$. 
+This holds even if the two conjuncts are not atomic sentences. If you can prove $[(A \eor J) \eif V]$ and  $[(V \eif L) \eiff (F \eor N)]$, then you have effectively proven
+$$[(A \eor J) \eif V] \eand [(V \eif L) \eiff (F \eor N)].$$
+So this will be our conjunction introduction rule, which we abbreviate {\eand}I:
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[n]{b}{\script{B}}
+	\have[\ ]{c}{\script{A}\eand\script{B}} \ai{a, b}
+\end{proof}
+
+A line of proof must be justified by some rule, and here we have `{\eand}I m,n.' This means: Conjunction introduction applied to line $m$ and line $n$. These are variables, not real line numbers; $m$ is some line and $n$ is some other line. In an actual proof, the lines are numbered $1, 2, 3, \ldots$ and rules must be applied to specific line numbers. When we define the rule, however, we use variables to underscore the point that the rule may be applied to any two lines that are already in the proof. If you have $K$ on line 8 and $L$ on line 15, you can prove $(K\eand L)$ at some later point in the proof with the justification `{\eand}I 8, 15.'
+
+Now, consider the elimination rule for conjunction. What are you entitled to conclude from a sentence like $E \eand F$? Surely, you are entitled to conclude $E$; if $E \eand F$ were true, then $E$ would be true. Similarly, you are entitled to conclude $F$. This will be our conjunction elimination rule, which we abbreviate {\eand}E:
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eand\script{B}}
+	\have[\ ]{a}{\script{A}} \ae{ab}
+	\have[\ ]{b}{\script{B}} \ae{ab}
+\end{proof}
+
+When you have a conjunction on some line of a proof, you can use {\eand}E to derive either of the conjuncts. The {\eand}E rule requires only one sentence, so we write one line number as the justification for applying it.
+
+Even with just these two rules, we can provide some proofs. Consider this argument.
+\begin{earg}
+\item[] $[(A\eor B)\eif(C\eor D)] \eand [(E \eor F) \eif (G\eor H)]$
+\item[\therefore] $[(E \eor F) \eif (G\eor H)] \eand [(A\eor B)\eif(C\eor D)]$
+\end{earg}
+The main logical operator in both the premise and conclusion is conjunction. Since conjunction is symmetric, the argument is obviously valid. In order to provide a proof, we begin by writing down the premise. After the premises, we draw a horizontal line--- everything below this line must be justified by a rule of proof. So the beginning of the proof looks like this:
+
+\begin{proof}
+	\hypo{ab}{{[}(A\eor B)\eif(C\eor D){]} \eand {[}(E \eor F) \eif (G\eor H){]}}
+\end{proof}
+
+From the premise, we can get each of the conjuncts by {\eand}E. The proof now looks like this:
+
+\begin{proof}
+	\hypo{ab}{{[}(A\eor B)\eif(C\eor D){]} \eand {[}(E \eor F) \eif (G\eor H){]}}
+	\have{a}{{[}(A\eor B)\eif(C\eor D){]}} \ae{ab}
+	\have{b}{{[}(E \eor F) \eif (G\eor H){]}} \ae{ab}
+\end{proof}
+
+The rule {\eand}I requires that we have each of the conjuncts available somewhere in the proof. They can be separated from one another, and they can appear in any order. So by applying the {\eand}I rule to lines 3 and 2, we arrive at the desired conclusion. The finished proof looks like this:
+
+\begin{proof}
+	\hypo{ab}{{[}(A\eor B)\eif(C\eor D){]} \eand {[}(E \eor F) \eif (G\eor H){]}}
+
+	\have{a}{{[}(A\eor B)\eif(C\eor D){]}} \ae{ab}
+	\have{b}{{[}(E \eor F) \eif (G\eor H){]}} \ae{ab}
+	\have{ba}{{[}(E \eor F) \eif (G\eor H){]} \eand {[}(A\eor B)\eif(C\eor D){]}} \ai{b,a}
+\end{proof}
+
+This proof is trivial, but it shows how we can use rules of proof together to demonstrate the validity of an argument form. Also: Using a truth table to show that this argument is valid would have required a staggering 256 lines, since there are eight sentence letters in the argument.
+
+%When we defined a wff, we did not allow for conjunctions with more than two conjuncts. If we had done so, then we could define a more general version of the rules of proof for conjunction.
+
+
+\subsection{Disjunction}
+If $M$ were true, then $M \eor N$ would also be true. So the disjunction introduction rule ({\eor}I) allows us to derive a disjunction if we have one of the two disjuncts:
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{ab}{\script{A}\eor\script{B}}\oi{a}
+	\have[\ ]{ba}{\script{B}\eor\script{A}}\oi{a}
+\end{proof}
+
+Notice that \script{B} can be \emph{any} sentence whatsoever. So the following is a legitimate proof:
+
+\begin{proof}
+	\hypo{m}{M}
+	\have{mmm}{M \eor ([(A\eiff B) \eif (C \eand D)] \eiff [E \eand F])}\oi{m}
+\end{proof}
+
+It may seem odd that just by knowing $M$ we can derive a conclusion that includes sentences like $A$, $B$, and the rest--- sentences that have nothing to do with $M$. Yet the conclusion follows immediately by {\eor}I. This is as it should be: The truth conditions for the disjunction mean that, if \script{A} is true, then $\script{A}\eor \script{B}$ is true regardless of what \script{B} is. So the conclusion could not be false if the premise were true; the argument is valid.
+
+Now consider the disjunction elimination rule. What can you conclude from $M \eor N$? You cannot conclude $M$. It might be $M$'s truth that makes $M \eor N$ true, as in the example above, but it might not. From $M \eor N$ alone, you cannot conclude anything about either $M$ or $N$ specifically. If you also knew that $N$ was false, however, then you would be able to conclude $M$.
+
+This is just disjunctive syllogism, it will be the disjunction elimination rule ({\eor}E).
+\begin{multicols}{2}
+\begin{proof}
+	\have[m]{ab}{\script{A}\eor\script{B}}
+	\have[n]{nb}{\enot\script{B}}
+	\have[\ ]{a}{\script{A}} \oe{ab,nb}
+\end{proof}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eor\script{B}}
+	\have[n]{na}{\enot\script{A}}
+	\have[\ ]{b}{\script{B}} \oe{ab,nb}
+\end{proof}
+
+\end{multicols}
+
+\subsection{Conditional}
+
+Consider this argument:
+\begin{earg}
+\item[] $R \eor F$
+\item[\therefore] $\enot R \eif F$
+\end{earg}
+The argument is certainly a valid one. What should the conditional introduction rule be, such that we can draw this conclusion?
+
+We begin the proof by writing down the premise of the argument and drawing a horizontal line, like this:
+
+\begin{proof}
+	\hypo{rf}{R \eor F}
+\end{proof}
+
+If we had $\enot R$ as a further premise, we could derive $F$ by the {\eor}E rule. We do not have $\enot R$ as a premise of this argument, nor can we derive it directly from the premise we do have--- so we cannot simply prove $F$. What we will do instead is start a \emph{subproof}, a proof within the main proof. When we start a subproof, we draw another vertical line to indicate that we are no longer in the main proof. Then we write in an assumption for the subproof. This can be anything we want. Here, it will be helpful to assume $\enot R$. Our proof now looks like this:
+
+\begin{proof}
+	\hypo{rf}{R \eor F}
+	\open
+		\hypo{nr}{\enot R}
+	\close
+\end{proof}
+
+It is important to notice that we are not claiming to have proven $\enot R$. We do not need to write in any justification for the assumption line of a subproof. You can think of the subproof as posing the question: What could we show \emph{if} $\enot R$ were true? For one thing, we can derive $F$. So we do:
+
+\begin{proof}
+	\hypo{rf}{R \eor F}
+	\open
+		\hypo{nr}{\enot R}
+		\have{f}{F}\oe{rf, nr}
+	\close
+\end{proof}
+
+This has shown that \emph{if} we had $\enot R$ as a premise, \emph{then} we could prove $F$. In effect, we have proven $\enot R \eif F$. So the conditional introduction rule ({\eif}I) will allow us to close the subproof and derive $\enot R \eif F$ in the main proof. Our final proof looks like this:
+
+\begin{proof}
+	\hypo{rf}{R \eor F}
+	\open
+		\hypo{nr}{\enot R}
+		\have{f}{F}\oe{rf, nr}
+	\close
+	\have{nrf}{\enot R \eif F}\ci{nr-f}
+\end{proof}
+
+
+Notice that the justification for applying the {\eif}I rule is the entire subproof. Usually that will be more than just two lines.
+
+It may seem as if the ability to assume anything at all in a subproof would lead to chaos: Does it allow you to prove any conclusion from any premises? The answer is no, it does not. Consider this proof:
+
+\begin{proof}
+	\hypo{a}{\script{A}}
+	\open
+		\hypo{b1}{\script{B}}
+		\have{b2}{\script{B}} \by{R}{b1}
+	\close
+\end{proof}
+
+It may seem as if this is a proof that you can derive any conclusions \script{B} from any premise \script{A}. When the vertical line for the subproof ends, the subproof is \emph{closed}. In order to complete a proof, you must close all of the subproofs. And you cannot close the subproof and use the R rule again on line 4 to derive \script{B} in the main proof. Once you close a subproof, you cannot refer back to individual lines inside it.
+
+Closing a subproof is called \emph{discharging} the assumptions of that subproof. So we can put the point this way: You cannot complete a proof until you have discharged all of the assumptions besides the original premises of the argument.
+
+Of course, it is legitimate to do this:
+
+\begin{proof}
+	\hypo{a}{\script{A}}
+	\open
+		\hypo{b1}{\script{B}}
+		\have{b2}{\script{B}} \by{R}{b1}
+	\close
+	\have{bb}{\script{B}\eif\script{B}} \ci{b1-b2}
+\end{proof}
+
+This should not seem so strange, though. Since \script{B}\eif\script{B} is a tautology, no particular premises should be required to validly derive it. (Indeed, as we will see, a tautology follows from any premises.)
+
+Put in a general form, the {\eif}I rule looks like this:
+
+\begin{proof}
+	\open
+		\hypo[m]{a}{\script{A}} \by{want \script{B}}{}
+		\have[n]{b}{\script{B}}
+	\close
+	\have[\ ]{ab}{\script{A}\eif\script{B}}\ci{a-b}
+\end{proof}
+
+When we introduce a subproof, we typically write what we want to derive in the column. This is just so that we do not forget why we started the subproof if it goes on for five or ten lines. There is no `want' rule. It is a note to ourselves and not formally part of the proof.
+
+Although it is always permissible to open a subproof with any assumption you please, there is some strategy involved in picking a useful assumption. Starting a subproof with an arbitrary, wacky assumption would just waste lines of the proof. In order to derive a conditional by the {\eif}I, for instance, you must assume the antecedent of the conditional in a subproof.
+
+The {\eif}I rule also requires that the consequent of the conditional be the last line of the subproof. It is always permissible to close a subproof and discharge its assumptions, but it will not be helpful to do so until you get what you want.
+
+Now consider the conditional elimination rule. Nothing follows from $M\eif N$ alone, but if we have both $M \eif N$ and $M$, then we can conclude $N$. This rule, modus ponens, will be the conditional elimination rule ({\eif}E).
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eif\script{B}}
+	\have[n]{a}{\script{A}}
+	\have[\ ]{b}{\script{B}} \ce{ab,a}
+\end{proof}
+
+Now that we have rules for the conditional, consider this argument:
+\label{proofHS}
+\begin{earg}
+\item[] $P \eif Q$
+\item[] $Q \eif R$
+\item[\therefore] $P \eif R$
+\end{earg}
+We begin the proof by writing the two premises as assumptions. Since the main logical operator in the conclusion is a conditional, we can expect to use the {\eif}I rule. For that, we need a subproof--- so we write in the antecedent of the conditional as assumption of a subproof:
+
+\begin{proof}
+	\hypo{pq}{P \eif Q}
+	\hypo{qr}{Q \eif R}
+	\open
+		\hypo{p}{P}
+	\close
+\end{proof}
+
+We made $P$ available by assuming it in a subproof, allowing us to use {\eif}E on the first premise. This gives us $Q$, which allows us to use {\eif}E on the second premise. Having derived  $R$, we close the subproof. By assuming $P$ we were able to prove $R$, so we apply the {\eif}I rule and finish the proof.
+
+\label{HSproof}
+\begin{proof}
+	\hypo{pq}{P \eif Q}
+	\hypo{qr}{Q \eif R}
+	\open
+		\hypo{p}{P}\by{want $R$}{}
+		\have{q}{Q}\ce{pq,p}
+		\have{r}{R}\ce{qr,q}
+	\close
+	\have{pr}{P \eif R}\ci{p-r}
+\end{proof}
+
+
+
+
+
+\subsection{Biconditional}
+The rules for the biconditional will be like double-barreled versions of the rules for the conditional.
+
+In order to derive $W \eiff X$, for instance, you must be able to prove $X$ by assuming $W$ \emph{and} prove $W$ by assuming $X$. The biconditional introduction rule ({\eiff}I) requires two subproofs. The subproofs can come in any order, and the second subproof does not need to come immediately after the first--- but schematically, the rule works like this:
+
+\begin{proof}
+	\open
+		\hypo[m]{a1}{\script{A}} \by{want \script{B}}{}
+		\have[n]{b1}{\script{B}}
+	\close
+	\open
+		\hypo[p]{b2}{\script{B}} \by{want \script{A}}{}
+		\have[q]{a2}{\script{A}}
+	\close
+	\have[\ ]{ab}{\script{A}\eiff\script{B}}\bi{a1-b1,b2-a2}
+\end{proof}
+
+The biconditional elimination rule ({\eiff}E) lets you do a bit more than the conditional rule. If you have the left-hand subsentence of the biconditional, you can derive the right-hand subsentence. If you have the right-hand subsentence, you can derive the left-hand subsentence. This is the rule:
+
+\begin{multicols}{2}
+\begin{proof}
+	\have[m]{ab}{\script{A}\eiff\script{B}}
+	\have[n]{a}{\script{A}}
+	\have[\ ]{b}{\script{B}} \be{ab,a}
+\end{proof}
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eiff\script{B}}
+	\have[n]{a}{\script{B}}
+	\have[\ ]{b}{\script{A}} \be{ab,a}
+\end{proof}
+\end{multicols}
+
+
+
+
+\subsection{Negation}
+Here is a simple mathematical argument in English:
+\begin{earg}
+\item[] Assume there is some greatest natural number. Call it $A$.
+\item[] That number plus one is also a natural number.
+\item[] Obviously, $A+1 > A$.
+\item[] So there is a natural number greater than $A$.
+\item[] This is impossible, since $A$ is assumed to be the greatest natural number.
+\item[\therefore] There is no greatest natural number.
+\end{earg}
+This argument form is traditionally called a \emph{reductio}. Its full Latin name is \emph{reductio ad absurdum}, which means `reduction to absurdity.' In a reductio, we assume something for the sake of argument--- for example, that there is a greatest natural number. Then we show that the assumption leads to two contradictory sentences--- for example, that $A$ is the greatest natural number and that it is not. In this way, we show that the original assumption must have been false.
+
+The basic rules for negation will allow for arguments like this. If we assume something and show that it leads to contradictory sentences, then we have proven the negation of the assumption. This is the negation introduction ({\enot}I) rule:
+
+\begin{proof}
+\open
+	\hypo[m]{na}{\script{A}}\by{for reductio}{}
+	\have[n]{b}{\script{B}}
+	\have{nb}{\enot\script{B}}
+\close
+\have{a}[\ ]{\enot\script{A}}\ni{na-nb}
+\end{proof}
+
+For the rule to apply, the last two lines of the subproof must be an explicit contradiction: some sentence followed on the next line by its negation. We write `for reductio' as a note to ourselves, a reminder of why we started the subproof. It is not formally part of the proof, and you can leave it out if you find it distracting.
+
+To see how the rule works, suppose we want to prove the law of non-contradiction: $\enot(G \eand \enot G)$. We can prove this without any premises by immediately starting a subproof. We want to apply {\enot}I to the subproof, so we assume $(G \eand \enot G)$. We then get an explicit contradiction by {\eand}E. The proof looks like this:
+
+\begin{proof}
+	\open
+		\hypo{gng}{G\eand \enot G}\by{for reductio}{}
+		\have{g}{G}\ae{gng}
+		\have{ng}{\enot G}\ae{gng}
+	\close
+	\have{ngng}{\enot(G \eand \enot G)}\ni{gng-ng}
+\end{proof}
+
+The {\enot}E rule will work in much the same way. If we assume \enot\script{A} and show that it leads to a contradiction, we have effectively proven \script{A}. So the rule looks like this:
+
+\begin{proof}
+\open
+	\hypo[m]{na}{\enot\script{A}}\by{for reductio}{}
+	\have[n]{b}{\script{B}}
+	\have{nb}{\enot\script{B}}
+\close
+\have{a}[\ ]{\script{A}}\ne{na-nb}
+\end{proof}
+
+
+\section{Derived rules}
+The rules of the natural deduction system are meant to be systematic. There is an introduction and an elimination rule for each logical operator, but why these basic rules rather than some others? Many natural deduction systems have a disjunction elimination rule that works like this:
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eor\script{B}}
+	\have[n]{ac}{\script{A}\eif\script{C}}
+	\have[o]{bc}{\script{B}\eif\script{C}}
+	\have[\ ]{c}{\script{C}} \by{DIL}{ab,ac,bc}
+\end{proof}
+
+Let's call this rule Dilemma (DIL) It might seem as if there will be some proofs that we cannot do with our proof system, because we do not have this as a basic rule. Yet this is not the case. Any proof that you can do using the Dilemma rule can be done with basic rules of our natural deduction system. Consider this proof:
+
+\begin{proof}
+	\hypo{ab}{\script{A}\eor\script{B}}
+	\hypo{ac}{\script{A}\eif\script{C}}
+	\hypo{bc}{\script{B}\eif\script{C}}\by{want \script{C}}{}
+	\open
+		\hypo{nc}{\enot \script{C}}\by{for reductio}{}
+		\open
+			\hypo{a1}{\script{A}}\by{for reductio}{}
+			\have{c1}{\script{C}}\ce{ac, a1}
+			\have{nc1}{\enot\script{C}}\by{R}{nc}
+		\close
+		\have{na}{\enot\script{A}}\ni{a1-nc1}
+		\open
+			\hypo{b2}{\script{B}}\by{for reductio}{}
+			\have{c2}{\script{C}}\ce{bc, b2}
+			\have{nc2}{\enot\script{C}}\by{R}{nc}
+		\close
+		\have{b}{\script{B}}\oe{ab, na}
+		\have{nb}{\enot\script{B}}\ni{b2-nc2}
+	\close
+	\have{c}{\script{C}} \ne{nc-nb}
+\end{proof}
+
+\script{A}, \script{B}, and \script{C} are meta-variables. They are not symbols of SL, but stand-ins for arbitrary sentences of SL. So this is not, strictly speaking, a proof in SL. It is more like a recipe. It provides a pattern that can prove anything that the Dilemma rule can prove, using only the basic rules of SL. This means that the Dilemma rule is not really necessary. Adding it to the list of basic rules would not allow us to derive anything that we could not derive without it.
+
+Nevertheless, the Dilemma rule would be convenient. It would allow us to do in one line what requires eleven lines and several nested subproofs with the basic rules. So we will add it to the proof system as a derived rule.
+
+A \define{derived rule} is a rule of proof that does not make any new proofs possible. Anything that can be proven with a derived rule can be proven without it. You can think of a short proof using a derived rule as shorthand for a longer proof that uses only the basic rules. Anytime you use the Dilemma rule, you could always take ten extra lines and prove the same thing without it.
+
+For the sake of convenience, we will add several other derived rules. One is \emph{modus tollens} (MT).
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eif\script{B}}
+	\have[n]{a}{\enot\script{B}}
+	\have[\ ]{b}{\enot\script{A}} \by{MT}{ab,a}
+\end{proof}
+
+We leave the proof of this rule as an exercise. Note that if we had already proven the MT rule, then the proof of the DIL rule could have been done in only five lines.
+
+We also add hypothetical syllogism (HS) as a derived rule. We have already given a proof of it on p.~\pageref{HSproof}.
+
+\begin{proof}
+	\have[m]{ab}{\script{A}\eif\script{B}}
+	\have[n]{bc}{\script{B}\eif\script{C}}
+	\have[\ ]{ac}{\script{A}\eif\script{C}}\by{HS}{ab,bc}
+\end{proof}
+
+
+\section{Rules of replacement}
+%\nix{could be beefier}
+Consider how you would prove this argument: $F\eif(G\eand H)$, \therefore\ $F\eif G$
+
+Perhaps it is tempting to write down the premise and apply the {\eand}E rule to the conjunction $(G \eand H)$. This is impermissible, however, because the basic rules of proof can only be applied to whole sentences. We need to get $(G \eand H)$ on a line by itself. We can prove the argument in this way:
+
+\begin{proof}
+	\hypo{fgh}{F\eif(G\eand H)}
+	\open
+		\hypo{f}{F}\by{want $G$}{}
+		\have{gh}{G \eand H}\ce{fgh,f}
+		\have{g}{G}\ae{gh}
+	\close
+	\have{fg}{F \eif G}\ci{f-g}
+\end{proof}
+
+We will now introduce some derived rules that may be applied to part of a sentence. These are called \define{rules of replacement}, because they can be used to replace part of a sentence with a logically equivalent expression. One simple rule of replacement is commutivity (abbreviated Comm), which says that we can swap the order of conjuncts in a conjunction or the order of disjuncts in a disjunction. We define the rule this way:
+
+\begin{center}
+\begin{tabular}{rl}
+$(\script{A}\eand\script{B}) \Longleftrightarrow (\script{B}\eand\script{A})$\\
+$(\script{A}\eor\script{B}) \Longleftrightarrow (\script{B}\eor\script{A})$\\
+$(\script{A}\eiff\script{B}) \Longleftrightarrow (\script{B}\eiff\script{A})$
+& Comm
+\end{tabular}
+\end{center}
+
+The bold arrow means that you can take a subformula on one side of the arrow and replace it with the subformula on the other side. The arrow is double-headed because rules of replacement work in both directions.
+
+Consider this argument: $(M \eor P) \eif (P \eand M)$, \therefore\ $(P \eor M) \eif (M \eand P)$
+
+It is possible to give a proof of this using only the basic rules, but it will be long and inconvenient. With the Comm rule, we can provide a proof easily:
+
+\begin{proof}
+	\hypo{1}{(M \eor P) \eif (P \eand M)}
+	\have{2}{(P \eor M) \eif (P \eand M)}\by{Comm}{1}
+	\have{n}{(P \eor M) \eif (M \eand P)}\by{Comm}{2}
+\end{proof}
+
+Another rule of replacement is double negation (DN). With the DN rule, you can remove or insert a pair of negations anywhere in a sentence. This is the rule:
+
+\begin{center}
+\begin{tabular}{rl}
+$\enot\enot\script{A} \Longleftrightarrow \script{A}$ & DN
+\end{tabular}
+\end{center}
+
+Two more replacement rules  are called De Morgan's Laws, named for the 19th-century British logician August De Morgan. (Although De Morgan did discover these laws, he was not the first to do so.) The rules capture useful relations between negation, conjunction, and disjunction. Here are the rules, which we abbreviate DeM:
+
+\begin{center}
+\begin{tabular}{rl}
+$\enot(\script{A}\eor\script{B}) \Longleftrightarrow (\enot\script{A}\eand\enot\script{B})$\\
+$\enot(\script{A}\eand\script{B}) \Longleftrightarrow (\enot\script{A}\eor\enot\script{B})$
+& DeM
+\end{tabular}
+\end{center}
+
+Because $\script{A}\eif\script{B}$ is a \emph{material conditional}, it is equivalent to $\enot\script{A}\eor\script{B}$. A further replacement rule captures this equivalence. We abbreviate the rule MC, for `material conditional.' It takes two forms:
+
+\begin{center}
+\begin{tabular}{rl}
+$(\script{A}\eif\script{B}) \Longleftrightarrow (\enot\script{A}\eor\script{B})$ &\\
+$(\script{A}\eor\script{B}) \Longleftrightarrow (\enot\script{A}\eif\script{B})$ & MC
+\end{tabular}
+\end{center}
+
+Now consider this argument: $\enot(P \eif Q)$, \therefore\ $P \eand \enot Q$
+
+As always, we could prove this argument using only the basic rules. With rules of replacement, though, the proof is much simpler:
+
+\begin{proof}
+	\hypo{1}{\enot(P \eif Q)}
+	\have{2}{\enot(\enot P \eor Q)}\by{MC}{1}
+	\have{3}{\enot\enot P \eand \enot Q}\by{DeM}{2}
+	\have{4}{P \eand \enot Q}\by{DN}{3}
+\end{proof}
+
+A final replacement rule captures the relation between conditionals and biconditionals. We will call this rule biconditional exchange and abbreviate it {\eiff}{ex}.
+
+\begin{center}
+\begin{tabular}{rl}
+$[(\script{A}\eif\script{B})\eand(\script{B}\eif\script{A})] \Longleftrightarrow (\script{A}\eiff\script{B})$
+& {\eiff}{ex}
+\end{tabular}
+\end{center}
+
+
+%Although they don't do it in the book, I've been in the habit of writing $(\script{A}\eand\script{B}\eand\script{C})$ and dropping the inner pair of parentheses. This is fine. If we'd wanted to, we could have defined the basic rules in a more general way:
+
+%\begin{proof}
+%	\have[n]{a1}{\script{A}_1}
+%	\have{2}{\script{A}_2}
+%	\have[\vdots]{1}{\vdots}
+%	\have[n]{an}{\script{A}_n}
+%	\have[\ ]{aaa}{\script{A}_1~\eand\ldots\eand~\script{A}_n} \ai{}
+%\end{proof}
+
+%\bigskip
+%\begin{proof}
+%	\have{3}{\script{A}_1~\eand\ldots\eand~\script{A}_n}
+%	\have{1}{\script{A}_i} \ae{}
+%\end{proof}
+
+%\bigskip
+%\begin{proof}
+%	\have{1}{\script{A}}
+%	\have{3}{\script{A}\eor\script{B}_1\eor\script{B}_2\ldots\eor\script{B}_n} \ai{}
+%\end{proof}
+
+%We don't need these extended versions, since for any given n we could prove them as a derived rule.
+
+
+\section{Rules for quantifiers}
+
+For proofs in QL, we use all of the basic rules of SL plus four new basic rules: both introduction and elimination rules for each of the quantifiers.
+
+Since all of the derived rules of SL are derived from the basic rules, they will also hold in QL. We will add another derived rule, a replacement rule called quantifier negation.
+
+\subsection{Substitution instances}
+
+In order to concisely state the rules for the quantifiers, we need a way to mark the relation between quantified sentences and their instances. For example, the sentence $Pa$ is a particular instance of the general claim $\forall x Px$.
+
+For a wff \script{A}, a constant $c$, and a variable $x$, define \script{A}\substitute{x}{c} to mean the wff that we get by replacing every occurrence of $x$ in \script{A} with $c$.
+
+\script{A}\substitute{x}{c} is called a \define{substitution instance} of $\forall x\script{A}$ and $\exists x\script{A}$, and $c$ is called the \define{instantiating constant}.
+
+\begin{itemize}
+\item $Aa \eif Ba$, $Af \eif Bf$, and $Ak \eif Bk$ are all substitution instances of $\forall x(Ax \eif Bx)$; the instantiating constants are $a$, $f$, and $k$, respectively.
+\item $Raj$, $Rdj$, and $Rjj$ are substitution instances of $\exists zRzj$; the instantiating constants are $a$, $d$, and $j$, respectively.
+\end{itemize}
+
+\subsection{Universal elimination}
+
+If you have $\forall x Ax$, it is legitimate to infer that anything is an $A$. You can infer $Aa$, $Ab$, $Az$, $Ad_3$. This is, you can infer any substitution instance -- in short, you can infer $A\script{c}$ for any constant \script{c}. This is the general form of the universal elimination rule ($\forall$E):
+
+\begin{proof}
+	\have[m]{a}{\forall \script{x}\script{A}}
+	\have[\ ]{c}{\script{A}\substitute{x}{c}} \Ae{a}
+\end{proof}
+
+
+Remember that the box mark for a substitution instance is not a symbol of QL, so you cannot write it directly in a proof. Instead, you write the substituted sentence with the constant \script{c} replacing all occurrences of the variable \script{x} in \script{A}. For example:
+
+\begin{proof}
+	\hypo{a}{\forall x(Mx \eif Rxd)}
+	\have{c}{Ma \eif Rad} \Ae{a}
+	\have{d}{Md \eif Rdd} \Ae{a}
+\end{proof}
+
+
+\subsection{Existential introduction}
+
+When is it legitimate to infer $\exists x Ax$? If you know that something is an $A$--- for instance, if you have $Aa$ available in the proof.
+
+This is the existential introduction rule ($\exists$I):
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{c}{\exists \script{x}\script{A}\substitutesome{x}{c}} \Ei{a}
+\end{proof}
+
+It is important to notice that \script{A}\substitutesome{x}{c} is not necessarily a substitution instance. We write it with double boxes to show that the variable \script{x} does not need to replace all occurrences of the constant \script{c}. You can decide which occurrences to replace and which to leave in place. For example:
+
+\begin{proof}
+	\hypo{a}{Ma \eif Rad}
+	\have{b}{\exists x(Ma \eif Rax)} \Ei{a}
+	\have{c}{\exists x(Mx \eif Rxd)} \Ei{a}
+	\have{d}{\exists x(Mx \eif Rad)} \Ei{a}
+	\have{e}{\exists y\exists x(Mx \eif Ryd)} \Ei{d}
+	\have{f}{\exists z\exists y\exists x(Mx \eif Ryz)} \Ei{e}
+\end{proof}
+
+
+\subsection{Universal introduction}
+A universal claim like $\forall x Px$ would be proven if {every} substitution instance of it had been proven, if every sentence $Pa$, $Pb$, $\ldots$ were available in a proof. Alas, there is no hope of proving \emph{every} substitution instance. That would require proving $Pa$, $Pb$, $\ldots$, $Pj_2$, $\ldots$, $Ps_7$, $\ldots$, and so on to infinity. There are infinitely many constants in QL, and so this process would never come to an end.
+
+Consider a simple argument: $\forall x Mx$, \therefore\ $\forall y My$
+
+It makes no difference to the meaning of the sentence whether we use the variable $x$ or the variable $y$, so this argument is obviously valid. Suppose we begin in this way:
+
+\begin{proof}
+	\hypo{x}{\forall x Mx} \by{want $\forall y My$}{}
+	\have{a}{Ma} \Ae{x}
+\end{proof}
+
+We have derived $Ma$. Nothing stops us from using the same justification to derive $Mb$, $\ldots$, $Mj_2$, $\ldots$, $Ms_7$, $\ldots$, and so on until we run out of space or patience. We have effectively shown the way to prove $M\script{c}$ for any constant \script{c}. From this, $\forall y My$ follows.
+
+\begin{proof}
+	\hypo{x}{\forall x Mx}
+	\have{a}{Ma} \Ae{x}
+	\have{y}{\forall y My} \Ai{a}
+\end{proof}
+
+It is important here that $a$ was just some arbitrary constant. We had not made any special assumptions about it. If $Ma$ were a premise of the argument, then this would not show anything about \emph{all} $y$. For example:
+
+\begin{proof}
+	\hypo{x}{\forall x Rxa}
+	\have{a}{Raa} \Ae{x}
+	\have{y}{\forall y Ryy} \by{not allowed!}{}
+\end{proof}
+
+
+This is the schematic form of the universal introduction rule ($\forall$I):
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
+	\have[\ ]{c}{\forall \script{x}\script{A}\substitute{c^\ast}{x}} \Ai{a}
+\end{proof}
+$^\ast$ The constant \script{c} must not occur in any undischarged assumption.
+
+Note that we can do this for any constant that does not occur in an undischarged assumption and for any variable.
+
+Note also that the constant may not occur in any \emph{undischarged} assumption, but it may occur as the assumption of a subproof that we have already closed. For example, we can prove $\forall z(Dz \eif Dz)$ without any premises.
+
+\begin{proof}
+	\open
+		\hypo{f1}{Df}\by{want $Df$}{}
+		\have{f2}{Df}\by{R}{f1}
+	\close
+	\have{ff}{Df \eif Df}\ci{f1-f2}
+	\have{zz}{\forall z(Dz \eif Dz)}\Ai{ff}
+\end{proof}
+
+
+\subsection{Existential elimination}
+A sentence with an existential quantifier tells us that there is \emph{some} member of the UD that satisfies a formula. For example, $\exists x Sx$ tells us (roughly) that there is at least one $S$. It does not tell us \emph{which} member of the UD satisfies $S$, however. We cannot immediately conclude $Sa$, $Sf_{23}$, or any other substitution instance of the sentence. What can we do?
+
+Suppose that we knew both $\exists x Sx$ and $\forall x(Sx \eif Tx)$. We could reason in this way:
+\begin{quote}
+Since $\exists x Sx$, there is something that is an $S$. We do not know which constants refer to this thing, if any do, so call this thing `Ishmael'. From $\forall x(Sx \eif Tx)$, it follows that if Ishmael an $S$, then it is a $T$. Therefore, Ishmael is a $T$.  Because Ishmael is a $T$, we know that $\exists x Tx$.
+\end{quote}
+In this paragraph, we introduced a name for the thing that is an $S$. We gave it an arbitrary name (`Ishmael') so that we could reason about it and derive some consequences from there being an $S$. Since `Ishmael' is just a bogus name introduced for the purpose of the proof and not a genuine constant, we could not mention it in the conclusion. Yet we could derive a sentence that does not mention Ishmael; namely, $\exists x Tx$. This sentence does follow from the two premises.
+
+We want the existential elimination rule to work in a similar way. Yet since English language worlds like `Ishmael' are not symbols of QL, we cannot use them in formal proofs. Instead, we will use constants of QL which do not otherwise appear in the proof.
+
+A constant that is used to stand in for whatever it is that satisfies an existential claim is called a \define{proxy}. Reasoning with the proxy must all occur inside a subproof, and the proxy cannot be a constant that is doing work elsewhere in the proof.
+
+This is the schematic form of the existential elimination rule ($\exists$E): 
+
+\begin{proof}
+	\have[m]{a}{\exists \script{x}\script{A}}
+	\open	
+		\hypo[n]{b}{\script{A}\substitute{c^\ast}{x}}
+		\have[p]{c}{\script{B}}
+	\close
+	\have[\ ]{d}{\script{B}} \Ee{a,b-c}
+\end{proof}
+$^\ast$ The constant \script{c} must not appear outside the subproof.
+
+Remember that the proxy constant cannot appear in \script{B}, the sentence you prove using $\exists$E.
+
+It would be enough to require that the proxy constant not appear in $\exists\script{x}\script{A}$, in \script{B}, or in any undischarged assumption. In recognition of the fact that it is just a place holder that we use inside the subproof, though, we require an entirely new constant which does not appear anywhere else in the proof.
+
+
+With this rule, we can give a formal proof that $\exists x Sx$ and $\forall x(Sx \eif Tx)$ together entail $\exists x Tx$.
+
+\begin{proof}
+	\hypo{es}{\exists x Sx}
+	\hypo{ast}{\forall x(Sx \eif Tx)}\by{want $\exists x Tx$}{}
+	\open
+		\hypo{s}{Sa}
+		\have{st}{Sa \eif Ta}\Ae{ast}
+		\have{t}{Ta} \ce{s,st}
+		\have{et1}{\exists x Tx}\Ei{t}
+	\close
+	\have{et2}{\exists x Tx}\Ee{es,s-et1}
+\end{proof}
+
+Notice that this has effectively the same structure as the English-language argument with which we began, except that the subproof uses the proxy constant `$a$' rather than the bogus name `Ishmael'.
+
+\subsection{Quantifier negation}
+
+When translating from English to QL, we noted that $\enot\exists x\enot\script{A}$ is logically equivalent to $\forall x\script{A}$. In QL, they are provably equivalent. We can prove one half of the equivalence with a rather gruesome proof:
+
+\begin{proof}
+	\hypo{Aa}{\forall x Ax} \by{want $\enot\exists x\enot Ax$}{}
+	\open
+		\hypo{Ena}{\exists x\enot Ax}\by{for reductio}{}
+		\open
+			\hypo{nc}{\enot Ac}\by{for $\exists$E}{}
+			\open
+				\hypo{Aa2}{\forall x Ax}\by{for reductio}{}
+				\have{c2}{Ac}\Ae{Aa}
+				\have{nc2}{\enot Ac}\by{R}{nc}
+			\close
+			\have{nAa}{\enot\forall x Ax}\ni{Aa2-nc2}
+		\close
+		\have{Aa3}{\forall x Ax}\by{R}{Aa}
+		\have{nAa3}{\enot\forall x Ax}\Ee{nc-nAa}
+	\close
+	\have{nEna}{\enot\exists x\enot Ax}\ni{Ena-nAa3}
+\end{proof}
+
+In order to show that the two sentences are genuinely equivalent, we need a second proof that assumes $\enot\exists x\enot\script{A}$ and derives $\forall x\script{A}$. We leave that proof as an exercise for the reader.
+
+It will often be useful to translate between quantifiers by adding or subtracting negations in this way, so we add two derived rules for this purpose. These rules are called quantifier negation (QN):
+\begin{center}
+\begin{tabular}{rl}
+$\enot\forall\script{x}\script{A} \Longleftrightarrow \exists\script{x}\enot\script{A}$\\
+$\enot\exists\script{x}\script{A} \Longleftrightarrow \forall\script{x}\enot\script{A}$
+& QN
+\end{tabular}
+\end{center}
+Since QN is a replacement rule, it can be used on whole sentences or on subformulae.
+
+
+\section{Rules for identity}
+The identity predicate is not part of QL, but we add it when we need to symbolize certain sentences. For proofs involving identity, we add two rules of proof.
+
+Suppose you know that many things that are true of $a$ are also true of $b$. For example: $Aa\eand Ab$, $Ba\eand Bb$, $\enot Ca\eand\enot Cb$, $Da\eand Db$, $\enot Ea\eand\enot Eb$, and so on. This would not be enough to justify the conclusion $a=b$. (See p.~\pageref{model.nonidentity}.) In general, there are no sentences that do not already contain the identity predicate that could justify the conclusion $a=b$. This means that the identity introduction rule will not justify $a=b$ or any other identity claim containing two different constants.
+
+However, it is always true that $a=a$. In general, no premises are required in order to conclude that something is identical to itself. So this will be the identity introduction rule, abbreviated {=}I:
+
+\begin{proof}
+	\have[\ \,\,\,]{x}{\script{c}=\script{c}} \by{=I}{}
+\end{proof}
+
+Notice that the {=}I rule does not require referring to any prior lines of the proof. For any constant \script{c}, you can write $\script{c}=\script{c}$ on any point with only the {=}I rule as justification.
+
+If you have shown that $a=b$, then anything that is true of $a$ must also be true of $b$. For any sentence with $a$ in it, you can replace some or all of the occurrences of $a$ with $b$ and produce an equivalent sentence. For example, if you already know $Raa$, then you are justified in concluding $Rab$, $Rba$, $Rbb$. Recall that $\script{A}\substitutesome{a}{b}$ is the sentence produced by replacing \script{a} in \script{A} with \script{b}. This is not the same as a substitution instance, because \script{b} may replace some or all occurrences of \script{a}. The identity elimination rule ({=}E) justifies replacing terms with other terms that are identical to it:
+\begin{proof}
+	\have[m]{e}{\script{a}=\script{b}}
+	\have[n]{a}{\script{A}}
+	\have[\ ]{ea1}{\script{A}\substitutesome{a}{b}} \by{=E}{e,a}
+	\have[\ ]{ea2}{\script{A}\substitutesome{b}{a}} \by{=E}{e,a}
+\end{proof}
+
+%The basic rules for conjunction can be valuable in a proof even if there are no conjunctions in any of the assumptions; the basic rules for disjunction can be used even if there are no disjunctions in any assumptions; and similarly for the other basic rules. The rules for identity are different, in that there must be an identity claim in some assumption in order for the rules to do any work. Other than the trivial identity that we can introduce with the {=}I rule
+
+
+%do not apply we can now prove that identity is \emph{transitive}: If $a=b$ and $b=c$, then $a=c$. The proof proceeds in this way:
+%\begin{proof}
+%	\open
+%		\hypo{p}{a=b \eand b=c}\by{want $a=c$}{}
+%		\have{ab}{a=b}\ae{p}
+%		\have{bc}{b=c}\ae{p}
+%		\have{ac}{a=c}\by{{=}E}{ab,bc}
+%	\close
+%	\have{conc}{(a=b \eand b=c)\eif a=c} \ci{p-ac}
+%\end{proof}
+
+
+%As an example, consider this argument:
+%\begin{quote}
+%There is only one button in my pocket. There is a blue button in my pocket. Therefore, there is no button in my pocket that is not blue.
+%\end{quote}
+%We begin by defining a symbolization key:
+%\begin{ekey}
+%\item{UD:} buttons in my pocket
+%\item{Bx:} $x$ is blue.
+%\end{ekey}
+%\begin{proof}
+%	\hypo{one}{\forall x\forall y\ x=y}
+%	\hypo{eb}{\exists x Bx} \by{want $\enot\exists x \enot Bx$}{}
+%	\open
+%		\hypo{be1}{Be}
+%		\have{ef1}{e=f}\Ae{one}
+%		\have{bf1}{Bf}\by{{=}E}{ef1,be1}
+%	\close
+%	\have{bf}{Bf}\Ee{eb,be1-bf1}
+%	\have{ab}{\forall x Bx}\Ai{bf}
+%	\have{nnab}{\enot\enot\forall x Bx}\by{DN}{ab}
+%	\have{nenb}{\enot\exists x\enot Bx}\by{QN}{nnab}
+%\end{proof}
+
+To see the rules in action, consider this proof:
+\begin{proof}
+	\hypo{one}{\forall x\forall y\ x=y}
+	\hypo{eb}{\exists x Bx}
+	\hypo{Abnc}{\forall x(Bx \eif \enot Cx)}
+		\by{want $\enot\exists x Cx$}{}
+	\open
+		\hypo{be1}{Be}
+		\have{ef1}{\forall y\ e=y}\Ae{one}
+		\have{ef2}{e=f}\Ae{ef1}
+		\have{bf1}{Bf}\by{{=}E}{ef2,be1}
+		\have{bnc1}{Bf\eif\enot Cf}\Ae{Abnc}
+		\have{ncf1}{\enot Cf}\ce{bnc1,bf1}
+	\close
+	\have{cf}{\enot Cf}\Ee{eb,be1-ncf1}
+	\have{Anc}{\forall x \enot Cx}\Ai{cf}
+	\have{nEc}{\enot\exists x Cx}\by{QN}{Anc}
+\end{proof}
+
+\section{Proof strategy}
+
+There is no simple recipe for proofs, and there is no substitute for practice. Here, though, are some rules of thumb and strategies to keep in mind.
+
+\paragraph{Work backwards from what you want.}
+The ultimate goal is to derive the conclusion. Look at the conclusion and ask what the introduction rule is for its main logical operator. This gives you an idea of what should happen \emph{just before} the last line of the proof. Then you can treat this line as if it were your goal. Ask what you could do to derive this new goal.
+
+For example: If your conclusion is a conditional $\script{A}\eif\script{B}$, plan to use the {\eif}I rule. This requires starting a subproof in which you assume \script{A}. In the subproof, you want to derive \script{B}.
+
+\paragraph{Work forwards from what you have.}
+When you are starting a proof, look at the premises; later, look at the sentences that you have derived so far. Think about the elimination rules for the main operators of these sentences. These will tell you what your options are.
+
+For example: If you have $\forall x\script{A}$, think about instantiating it for any constant that might be helpful. If you have $\exists x\script{A}$ and intend to use the $\exists$E rule, then you should assume $\script{A}[c|x]$ for some $c$ that is not in use and then derive a conclusion that does not contain $c$.
+
+For a short proof, you might be able to eliminate the premises and introduce the conclusion. A long proof is formally just a number of short proofs linked together, so you can fill the gap by alternately working back from the conclusion and forward from the premises.
+
+
+\paragraph{Change what you are looking at.}
+Replacement rules can often make your life easier. If a proof seems impossible, try out some different substitutions.
+
+For example: It is often difficult to prove a disjunction using the basic rules. If you want to show $\script{A}\eor\script{B}$, it is often easier to show $\enot\script{A}\eif\script{B}$ and use the MC rule.
+
+Showing $\enot \exists x\script{A}$ can also be hard, and it is often easier to show  $\forall x\enot \script{A}$ and use the QN rule.
+
+Some replacement rules should become second nature. If you see a negated disjunction, for instance, you should immediately think of DeMorgan's rule.
+
+\paragraph{Do not forget indirect proof.}
+If you cannot find a way to show something directly, try assuming its negation.
+
+Remember that most proofs can be done either indirectly or directly. One way might be easier--- or perhaps one sparks your imagination more than the other--- but either one is formally legitimate.
+
+\paragraph{Repeat as necessary.} Once you have decided how you might be able to get to the conclusion, ask what you might be able to do with the premises. Then consider the target sentences again and ask how you might reach them.
+
+\paragraph{Persist.}
+Try different things. If one approach fails, then try something else.
+
+
+
+
+\section{Proof-theoretic concepts}
+
+We will use the symbol `$\vdash$' to indicate that a proof is possible. This symbol is called the \emph{turnstile}. Sometimes it is called a \emph{single turnstile}, to underscore the fact that this is not the {double turnstile} symbol ($\models$) that we used to represent semantic entailment in ch.~\ref{ch.semantics}.
+
+When we write $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\script{B}$, this means that it is possible to give a proof of \script{B} with $\script{A}_1$,$\script{A}_2$,$\ldots$ as premises. With just one premise, we leave out the curly braces, so $\script{A}\vdash\script{B}$ means that there is a proof of \script{B} with \script{A} as a premise. Naturally, $\vdash\script{C}$ means that there is a proof of \script{C} that has no premises.
+
+Often, logical proofs are called \emph{derivations}. So $\script{A}\vdash\script{B}$ can be read as `\script{B} is derivable from \script{A}.'
+
+A \define{theorem} is a sentence that is derivable without any premises; i.e., \script{T} is a theorem if and only if $\vdash\script{T}$.
+
+It is not too hard to show that something is a theorem--- you just have to give a proof of it. How could you show that something is \emph{not} a theorem? If its negation is a theorem, then you could provide a proof. For example, it is easy to prove $\enot(Pa \eand \enot Pa)$, which shows that $(Pa \eand \enot Pa)$ cannot be a theorem. For a sentence that is neither a theorem nor the negation of a theorem, however, there is no easy way to show this. You would have to demonstrate not just that certain proof strategies fail, but that no proof is possible. Even if you fail in trying to prove a sentence in a thousand different ways, perhaps the proof is just too long and complex for you to make out.
+
+Two sentences \script{A} and \script{B} are \define{provably equivalent} if and only if each can be derived from the other; i.e., $\script{A}\vdash\script{B}$ and $\script{B}\vdash\script{A}$
+
+It is relatively easy to show that two sentences are provably equivalent--- it just requires a pair of proofs. Showing that sentences are \emph{not} provably equivalent would be much harder. It would be just as hard as showing that a sentence is not a theorem. (In fact, these problems are interchangeable. Can you think of a sentence that would be a theorem if and only if \script{A} and \script{B} were provably equivalent?)
+
+The set of sentences $\{\script{A}_1,\script{A}_2,\ldots\}$ is \define{provably inconsistent} if and only if a contradiction is derivable from it; i.e., for some sentence \script{B}, $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\script{B}$ and $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\enot \script{B}$.
+
+It is easy to show that a set is provably inconsistent: You just need to assume the sentences in the set and prove a contradiction. Showing that a set is \emph{not} provably inconsistent will be much harder. It would require more than just providing a proof or two; it would require showing that proofs of a certain kind are \emph{impossible}.
+
+
+
+
+
+
+
+
+\section{Proofs and models}
+As you might already suspect, there is a connection between \emph{theorems} and \emph{tautologies}.
+
+There is a formal way of showing that a sentence is a theorem: Prove it. For each line, we can check to see if that line follows by the cited rule. It may be hard to produce a twenty line proof, but it is not so hard to check each line of the proof and confirm that it is legitimate--- and if each line of the proof individually is legitimate, then the whole proof is legitimate. Showing that a sentence is a tautology, though, requires reasoning in English about all possible models. There is no formal way of checking to see if the reasoning is sound. Given a choice between showing that a sentence is a theorem and showing that it is a tautology, it would be easier to show that it is a theorem.
+
+Contrawise, there is no formal way of showing that a sentence is \emph{not} a theorem. We would need to reason in English about all possible proofs. Yet there is a formal method for showing that a sentence is not a tautology. We need only construct a model in which the sentence is false. Given a choice between showing that a sentence is not a theorem and showing that it is not a tautology, it would be easier to show that it is not a tautology.
+
+Fortunately, a sentence is a theorem if and only if it is a tautology. If we provide a proof of $\vdash\script{A}$ and thus show that it is a theorem, it follows that \script{A} is a tautology; i.e., $\models\script{A}$. Similarly, if we construct a model in which \script{A} is false and thus show that it is not a tautology, it follows that \script{A} is not a theorem.
+
+In general, $\script{A}\vdash\script{B}$ if and only if $\script{A}\models\script{B}$. As such:
+\begin{itemize}
+\item An argument is \emph{valid} if and only if \emph{the conclusion is derivable from the premises}.
+\item Two sentences are \emph{logically equivalent} if and only if they are \emph{provably equivalent}.
+\item A set of sentences is \emph{consistent} if and only if it is \emph{not provably inconsistent}.
+\end{itemize}
+You can pick and choose when to think in terms of proofs and when to think in terms of models, doing whichever is easier for a given task. Table \ref{table.ProofOrModel} summarizes when it is best to give proofs and when it is best to give models.
+
+In this way, proofs and models give us a versatile toolkit for working with arguments. If we can translate an argument into QL, then we can measure its logical weight in a purely formal way. If it is deductively valid, we can give a formal proof; if it is invalid, we can provide a formal counterexample.
+
+\begin{table}
+\begin{center}
+\begin{tabular*}{\textwidth}{p{10em}|p{10em}|p{10em}|}
+\cline{2-3}
+
+ & {\centerline{YES}} & {\centerline{NO}}\\
+\cline{2-3}
+
+Is \script{A} a tautology? & prove $\vdash\script{A}$ & give a model in which \script{A} is false\\
+\cline{2-3}
+
+Is \script{A} a contradiction? &  prove $\vdash\enot\script{A}$ & give a model in which \script{A} is true\\
+\cline{2-3}
+
+Is \script{A} contingent? & give a model in which \script{A} is true and another in which \script{A} is false & prove $\vdash\script{A}$ or $\vdash\enot\script{A}$\\
+\cline{2-3}
+
+Are \script{A} and \script{B} equivalent? & prove \mbox{$\script{A}\vdash\script{B}$} and \mbox{$\script{B}\vdash\script{A}$}  & give a model in which \script{A} and \script{B} have different truth values\\
+\cline{2-3}
+
+Is the set \model{A} consistent? & give a model in which all the sentences in \model{A} are true & taking the sentences in \model{A}, prove \script{B} and \enot\script{B}\\
+\cline{2-3}
+
+Is the argument \mbox{`\script{P}, \therefore\ \script{C}'} valid? & prove $\script{P}\vdash\script{C}$ & give a model in which \script{P} is true and \script{C} is false\\
+\cline{2-3}
+\end{tabular*}
+\end{center}
+\caption{Sometimes it is easier to show something by providing proofs than it is by providing models. Sometimes it is the other way round.  It depends on what you are trying to show.}
+\label{table.ProofOrModel}
+\end{table}
+
+
+
+\section{Soundness and completeness}
+
+This toolkit is incredibly convenient. It is also intuitive, because it seems natural that provability and semantic entailment should agree. Yet, do not be fooled by the similarity of the symbols `$\models$' and `$\vdash$.' The fact that these two are really interchangeable is not a simple thing to prove.
+
+Why should we think that an argument that \emph{can be proven} is necessarily a \emph{valid} argument? That is, why think that $\script{A}\vdash\script{B}$ implies $\script{A}\models\script{B}$?
+
+This is the problem of \define{soundness}. A proof system is \define{sound} if there are no proofs of invalid arguments. Demonstrating that the proof system is sound would require showing that \emph{any} possible proof is the proof of a valid argument. It would not be enough simply to succeed when trying to prove many valid arguments and to fail when trying to prove invalid ones.
+
+Fortunately, there is a way of approaching this in a step-wise fashion. If using the {\eand}E rule on the last line of a proof could never change a valid argument into an invalid one, then using the rule many times could not make an argument invalid. Similarly, if using the {\eand}E and {\eor}E rules individually on the last line of a proof could never change a valid argument into an invalid one, then using them in combination could not either.
+
+The strategy is to show for every rule of inference that it alone could not make a valid argument into an invalid one. It follows that the rules used in combination would not make a valid argument invalid. Since a proof is just a series of lines, each justified by a rule of inference, this would show that every provable argument is valid.
+
+Consider, for example, the {\eand}I rule. Suppose we use it to add \script{A}\eand\script{B} to a valid argument. In order for the rule to apply, \script{A} and \script{B} must already be available in the proof. Since the argument so far is valid, \script{A} and \script{B} are either premises of the argument or valid consequences of the premises. As such, any model in which the premises are true must be a model in which \script{A} and \script{B} are true. According to the definition of \define{truth in QL}, this means that \script{A}\eand\script{B} is also true in such a model. Therefore, \script{A}\eand\script{B} validly follows from the premises. This means that using the {\eand}E rule to extend a valid proof produces another valid proof.
+
+In order to show that the proof system is sound, we would need to show this for the other inference rules. Since the derived rules are consequences of the basic rules, it would suffice to provide similar arguments for the 16 other basic rules. This tedious exercise falls beyond the scope of this book.
+
+Given a proof that the proof system is sound, it follows that every theorem is a tautology.
+
+It is still possible to ask: Why think that \emph{every} valid argument is an argument that can be proven?  That is, why think that $\script{A}\models\script{B}$ implies $\script{A}\vdash\script{B}$?
+
+This is the problem of \define{completeness}. A proof system is \define{complete} if there is a proof of every valid argument. Completeness for a language like QL was first proven by Kurt G\"odel in 1929. The proof is beyond the scope of this book.
+
+The important point is that, happily, the proof system for QL is both sound and complete. This is not the case for all proof systems and all formal languages. Because it is true of QL, we can choose to give proofs or construct models--- whichever is easier for the task at hand.
+
+
+
+
+\section*{Summary of definitions}
+\begin{itemize}
+\item A sentence \script{A} is a \define{theorem} if and only if $\vdash\script{A}$.
+
+\item Two sentences \script{A} and \script{B} are \define{provably equivalent} if and only if $\script{A}\vdash\script{B}$ and $\script{B}\vdash\script{A}$.
+
+\item $\{\script{A}_1,\script{A}_2,\ldots\}$ is \define{provably inconsistent} if and only if, for some sentence \script{B}, $\{\script{A}_1,\script{A}_2,\ldots\}\vdash(\script{B} \eand \enot \script{B})$.
+\end{itemize}
+
+
+
+\practiceproblems
+
+\solutions
+\problempart
+\label{pr.justifySLproof}
+Provide a justification (rule and line numbers) for each line of proof that requires one.
+\begin{multicols}{2}
+\begin{proof}
+\hypo{1}{W \eif \enot B}
+\hypo{2}{A \eand W}
+\hypo{2b}{B \eor (J \eand K)}
+\have{3}{W}{}
+\have{4}{\enot B} {}
+\have{5}{J \eand K} {}
+\have{6}{K}{}
+\end{proof}
+
+\begin{proof}
+\hypo{1}{L \eiff \enot O}
+\hypo{2}{L \eor \enot O}
+\open
+	\hypo{a1}{\enot L}
+	\have{a2}{\enot O}{}
+	\have{a3}{L}{}
+	\have{a4}{\enot L}{}
+\close
+\have{3}{L}{}
+\end{proof}
+
+\begin{proof}
+\hypo{1}{Z \eif (C \eand \enot N)}
+\hypo{2}{\enot Z \eif (N \eand \enot C)}
+\open
+	\hypo{a1}{\enot(N \eor  C)}
+	\have{a2}{\enot N \eand \enot C} {}
+	\open
+		\hypo{b1}{Z}
+		\have{b2}{C \eand \enot N}{}
+		\have{b3}{C}{}
+		\have{b4}{\enot C}{}
+	\close
+	\have{a3}{\enot Z}{}
+	\have{a4}{N \eand \enot C}{}
+	\have{a5}{N}{}
+	\have{a6}{\enot N}{}
+\close
+\have{3}{N \eor C}{}
+\end{proof}
+\end{multicols}
+
+\solutions
+\problempart
+\label{pr.solvedSLproofs}
+Give a proof for each argument in SL.
+\begin{earg}
+\item $K\eand L$, \therefore $K\eiff L$
+\item $A\eif (B\eif C)$, \therefore $(A\eand B)\eif C$
+\item $P \eand (Q\eor R)$, $P\eif \enot R$, \therefore $Q\eor E$
+\item $(C\eand D)\eor E$, \therefore $E\eor D$
+\item $\enot F\eif G$, $F\eif H$, \therefore $G\eor H$
+\item $(X\eand Y)\eor(X\eand Z)$, $\enot(X\eand D)$, $D\eor M$ \therefore $M$
+\end{earg}
+
+\problempart
+Give a proof for each argument in SL.
+\begin{earg}
+\item $Q\eif(Q\eand\enot Q)$, \therefore\ $\enot Q$
+\item $J\eif\enot J$, \therefore\ $\enot J$
+\item $E\eor F$, $F\eor G$, $\enot F$, \therefore\ $E \eand G$
+\item $A\eiff B$, $B\eiff C$, \therefore\ $A\eiff C$
+\item $M\eor(N\eif M)$, \therefore\ $\enot M \eif \enot N$
+\item $S\eiff T$, \therefore\ $S\eiff (T\eor S)$
+\item $(M \eor N) \eand (O \eor P)$, $N \eif P$, $\enot P$, \therefore\ $M\eand O$
+\item $(Z\eand K) \eor (K\eand M)$, $K \eif D$, \therefore\ $D$
+\end{earg}
+
+
+
+\problempart
+Show that each of the following sentences is a theorem in SL.
+\begin{earg}
+\item $O \eif O$
+\item $N \eor \enot N$
+\item $\enot(P\eand \enot P)$
+\item $\enot(A \eif \enot C) \eif (A \eif C)$
+\item $J \eiff [J\eor (L\eand\enot L)]$
+\end{earg}
+
+\problempart
+Show that each of the following pairs of sentences are provably equivalent in SL.
+\begin{earg}
+\item $\enot\enot\enot\enot G$, $G$
+\item $T\eif S$, $\enot S \eif \enot T$
+\item $R \eiff E$, $E \eiff R$
+\item $\enot G \eiff H$, $\enot(G \eiff H)$
+\item $U \eif I$, $\enot(U \eand \enot I)$
+\end{earg}
+
+\problempart
+Provide proofs to show each of the following.
+\begin{earg}
+\item $M \eand (\enot N \eif \enot M) \vdash (N \eand M) \eor \enot M$
+\item \{$C\eif(E\eand G)$, $\enot C \eif G$\} $\vdash$ $G$
+\item \{$(Z\eand K)\eiff(Y\eand M)$, $D\eand(D\eif M)$\} $\vdash$ $Y\eif Z$
+\item \{$(W \eor X) \eor (Y \eor Z)$, $X\eif Y$, $\enot Z$\} $\vdash$ $W\eor Y$
+\end{earg}
+
+
+
+\problempart
+For the following, provide proofs using only the basic rules. The proofs will be longer than proofs of the same claims would be using the derived rules.
+\begin{earg}
+\item Show that MT is a legitimate derived rule. Using only the basic rules, prove the following: \script{A}\eif\script{B}, \enot\script{B}, \therefore\ \enot\script{A}
+\item Show that Comm is a legitimate rule for the biconditional. Using only the basic rules, prove that $\script{A}\eiff\script{B}$ and $\script{B}\eiff\script{A}$ are equivalent.
+\item Using only the basic rules, prove the following instance of DeMorgan's Laws: $(\enot A \eand \enot B)$, \therefore\ $\enot(A \eor B)$
+\item Without using the QN rule, prove $\enot\exists x\enot\script{A} \vdash \forall x\script{A}$
+\item Show that {\eiff}{ex} is a legitimate derived rule. Using only the basic rules, prove that $D\eiff E$ and $(D\eif E)\eand(E\eif D)$ are equivalent.
+\end{earg}
+
+
+\newpage
+\solutions
+\problempart
+\label{pr.justifyQLproof}
+Provide a justification (rule and line numbers) for each line of proof that requires one.
+\begin{multicols}{2}
+%$\{\forall x(\exists y)(Rxy \eor Ryx),\forall x\enot Rmx\}\vdash\exists xRxm$
+\begin{proof}
+\hypo{p1}{\forall x\exists y(Rxy \eor Ryx)}
+\hypo{p2}{\forall x\enot Rmx}
+\have{3}{\exists y(Rmy \eor Rym)}{}
+	\open
+		\hypo{a1}{Rma \eor Ram}
+		\have{a2}{\enot Rma}{}
+		\have{a3}{Ram}{}
+		\have{a4}{\exists x Rxm}{}
+	\close
+\have{n}{\exists x Rxm} {}
+\end{proof}
+
+%$\{\forall x(\exists yLxy \eif \forall zLzx), Lab\} \vdash \forall xLxx$
+\begin{proof}
+\hypo{1}{\forall x(\exists yLxy \eif \forall zLzx)}
+\hypo{2}{Lab}
+\have{3}{\exists y Lay \eif \forall zLza}{}
+\have{4}{\exists y Lay} {}
+\have{5}{\forall z Lza} {}
+\have{6}{Lca}{}
+\have{7}{\exists y Lcy \eif \forall zLzc}{}
+\have{8}{\exists y Lcy}{}
+\have{9}{\forall z Lzc}{}
+\have{10}{Lcc}{}
+\have{11}{\forall x Lxx}{}
+\end{proof}
+
+
+% $\{\forall x(Jx \eif Kx), \exists x\forall y Lxy, \forall x Jx\} \vdash \exists x(Kx \eand Lxx)$
+\begin{proof}
+\hypo{a}{\forall x(Jx \eif Kx)}
+\hypo{b}{\exists x\forall y Lxy}
+\hypo{c}{\forall x Jx}
+\open
+	\hypo{2}{\forall y Lay}
+	\have{d}{Ja}{}
+	\have{e}{Ja \eif Ka}{}
+	\have{f}{Ka}{}
+	\have{3}{Laa}{}
+	\have{4}{Ka \eand Laa}{}
+	\have{5}{\exists x(Kx \eand Lxx)}{}
+\close
+\have{j}{\exists x(Kx \eand Lxx)}{}
+\end{proof}
+
+
+
+
+
+%$\vdash \exists x Mx \eor \forall x\enot Mx$
+\begin{proof}
+	\open
+		\hypo{p1}{\enot (\exists x Mx \eor \forall x\enot Mx)}
+		\have{p2}{\enot \exists x Mx \eand \enot \forall x\enot Mx}{}
+		\have{p3}{\enot \exists x Mx}{}
+		\have{p4}{\forall x\enot Mx}{}
+		\have{p5}{\enot \forall x\enot Mx}{}
+	\close
+\have{n}{\exists x Mx \eor \forall x\enot Mx} {}
+\end{proof}
+\end{multicols}
+
+\solutions
+\problempart
+\label{pr.someQLproofs}
+Provide a proof of each claim.
+\begin{earg}
+\item $\vdash \forall x Fx \eor \enot \forall x Fx$
+\item $\{\forall x(Mx \eiff Nx), Ma\eand\exists x Rxa\}\vdash \exists x Nx$
+\item $\{\forall x(\enot Mx \eor Ljx), \forall x(Bx\eif Ljx), \forall x(Mx\eor Bx)\}\vdash \forall xLjx$
+\item $\forall x(Cx \eand Dt)\vdash \forall xCx \eand Dt$
+\item $\exists x(Cx \eor Dt)\vdash \exists x Cx \eor Dt$
+\end{earg}
+
+\problempart
+Provide a proof of the argument about Billy on p.~\pageref{surgeon2}.
+
+
+
+\problempart
+\label{pr.BarbaraEtc.proof1}
+Look back at Part \ref{pr.BarbaraEtc} on p.~\pageref{pr.BarbaraEtc}. Provide proofs to show that each of the argument forms is valid in QL.
+
+
+
+\problempart
+\label{pr.BarbaraEtc.proof2}
+Aristotle and his successors identified other syllogistic forms. Symbolize each of the following argument forms in QL and add the additional assumptions `There is an $A$' and `There is a $B$.' Then prove that the supplemented arguments forms are valid in QL.
+
+\begin{description}
+\item[Darapti:] All $A$s are $B$s. All $A$s are $C$s.
+	\therefore\  Some $B$ is $C$.
+\item[Felapton:] No $B$s are $C$s. All $A$s are $B$s.
+	\therefore\  Some $A$ is not $C$.
+\item[Barbari:] All $B$s are $C$s. All $A$s are $B$s.
+	\therefore\  Some $A$ is $C$.
+\item[Camestros:] All $C$s are $B$s. No $A$s are $B$s.
+	\therefore\  Some $A$ is not $C$.
+\item[Celaront:] No $B$s are $C$s. All $A$s are $B$s.
+	\therefore\  Some $A$ is not $C$.
+\item[Cesaro:] No $C$s are $B$s. All $A$s are $B$s.
+	\therefore\  Some $A$ is not $C$.
+\item[Fapesmo:] All $B$s are $C$s. No $A$s are $B$s.
+	\therefore\  Some $C$ is not $A$.
+\end{description}
+
+
+
+\problempart
+Provide a proof of each claim.
+\begin{earg}
+\item $\forall x \forall y Gxy\vdash\exists x Gxx$
+\item $\forall x \forall y (Gxy \eif Gyx) \vdash \forall x\forall y (Gxy \eiff Gyx)$
+\item $\{\forall x(Ax\eif Bx), \exists x Ax\} \vdash \exists x Bx$
+\item $\{Na \eif \forall x(Mx \eiff Ma), Ma, \enot Mb\}\vdash \enot Na$
+\item $\vdash\forall z (Pz \eor \enot Pz)$
+\item $\vdash\forall x Rxx\eif \exists x \exists y Rxy$
+\item $\vdash\forall y \exists x (Qy \eif Qx)$
+\end{earg}
+
+
+
+\problempart
+Show that each pair of sentences is provably equivalent.
+\begin{earg}
+\item $\forall x (Ax\eif \enot Bx)$, $\enot\exists x(Ax \eand Bx)$
+\item $\forall x (\enot Ax\eif Bd)$, $\forall x Ax \eor Bd$
+\item $\exists x Px \eif Qc$, $\forall x (Px \eif Qc)$
+\end{earg}
+
+
+
+\problempart
+Show that each of the following is provably inconsistent.
+\begin{earg}
+\item \{$Sa\eif Tm$, $Tm \eif Sa$, $Tm \eand \enot Sa$\}
+\item \{$\enot\exists x Rxa$, $\forall x \forall y Ryx$\}
+\item \{$\enot\exists x \exists y Lxy$, $Laa$\}
+\item \{$\forall x(Px \eif Qx)$, $\forall z(Pz \eif Rz)$, $\forall y Py$, $\enot Qa \eand \enot Rb$\}
+\end{earg}
+
+
+
+\solutions
+\problempart
+\label{pr.likes}
+Write a symbolization key for the following argument, translate it, and prove it:
+\begin{quote}
+There is someone who likes everyone who likes everyone that he likes. Therefore, there is someone who likes himself.
+\end{quote}
+
+\problempart
+\label{pr.identity}
+Provide a proof of each claim.
+\begin{earg}
+\item $\{Pa \eor Qb, Qb \eif b=c, \enot Pa\}\vdash Qc$
+\item $\{m=n \eor n=o, An\}\vdash Am \eor Ao$
+\item $\{\forall x x=m, Rma\}\vdash \exists x Rxx$
+\item $\enot \exists x x \neq m \vdash \forall x\forall y (Px \eif Py)$
+\item $\forall x\forall y(Rxy \eif x=y)\vdash Rab \eif Rba$
+\item $\{\exists x Jx, \exists x \enot Jx\}\vdash \exists x \exists y\ x\neq y$
+\item $\{\forall x(x=n \eiff Mx), \forall x(Ox \eor \enot Mx)\}\vdash On$
+\item $\{\exists x Dx, \forall x(x=p \eiff Dx)\}\vdash Dp$
+\item $\{\exists x\bigl[Kx \eand \forall y(Ky \eif x=y) \eand Bx\bigr], Kd\}\vdash Bd$
+\item $\vdash Pa \eif \forall x(Px \eor x \neq a)$
+\end{earg}
+
+
+
+\problempart
+Look back at Part \ref{pr.QLarguments} on p.~\pageref{pr.QLarguments}. For each argument: If it is valid in QL, give a proof. If it is invalid, construct a model to show that it is invalid.
+
+\solutions
+\problempart
+\label{pr.QLequivornot}
+For each of the following pairs of sentences: If they are logically equivalent in QL, give proofs to show this. If they are not, construct a model to show this.
+\begin{earg}
+\item $\forall x Px \eif Qc$, $\forall x (Px \eif Qc)$
+\item $\forall x Px \eand Qc$, $\forall x (Px \eand Qc)$
+\item $Qc \eor \exists x Qx$, $\exists x (Qc \eor Qx)$
+\item $\forall x\forall y \forall z Bxyz$, $\forall x Bxxx$
+\item $\forall x\forall y Dxy$, $\forall y\forall x Dxy$
+\item $\exists x\forall y Dxy$, $\forall y\exists x Dxy$
+\end{earg}
+
+\solutions
+\problempart
+\label{pr.QLvalidornot}
+For each of the following arguments: If it is valid in QL, give a proof. If it is invalid, construct a model to show that it is invalid.
+\begin{earg}
+\item $\forall x\exists y Rxy$, \therefore\ $\exists y\forall x Rxy$
+\item $\exists y\forall x Rxy$, \therefore\ $\forall x\exists y Rxy$
+\item $\exists x(Px \eand \enot Qx)$, \therefore\ $\forall x(Px \eif \enot Qx)$
+\item $\forall x(Sx \eif Ta)$, $Sd$, \therefore\ $Ta$
+\item $\forall x(Ax\eif Bx)$, $\forall x(Bx \eif Cx)$, \therefore\ $\forall x(Ax \eif Cx)$
+\item $\exists x(Dx \eor Ex)$, $\forall x(Dx \eif Fx)$, \therefore\ $\exists x(Dx \eand Fx)$
+\item $\forall x\forall y(Rxy \eor Ryx)$, \therefore\ $Rjj$
+\item $\exists x\exists y(Rxy \eor Ryx)$, \therefore\ $Rjj$
+\item $\forall x Px \eif \forall x Qx$, $\exists x \enot Px$, \therefore\ $\exists x \enot Qx$
+\item $\exists x Mx \eif \exists x Nx$, $\enot \exists x Nx$, \therefore\ $\forall x \enot Mx$
+\end{earg}
+
+
+
+
+
+
+\problempart
+\begin{earg}
+\item If you know that $\script{A}\vdash\script{B}$, what can you say about $(\script{A}\eand\script{C})\vdash\script{B}$? Explain your answer.
+\item If you know that $\script{A}\vdash\script{B}$, what can you say about $(\script{A}\eor\script{C})\vdash\script{B}$? Explain your answer.
+\end{earg}
+
+
+
+

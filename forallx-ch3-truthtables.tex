@@ -1,0 +1,426 @@
+%!TEX root = forallx.tex
+\chapter{Truth tables}
+\label{ch.TruthTables}
+
+This chapter introduces a way of evaluating sentences and arguments of SL. Although it can be laborious, the truth table method is a purely mechanical procedure that requires no intuition or special insight.
+
+\section{Truth-functional connectives}
+
+Any non-atomic sentence of SL is composed of atomic sentences with sentential connectives. The truth-value of the compound sentence depends only on the truth-value of the atomic sentences that comprise it. In order to know the truth-value of $(D\eiff E)$, for instance, you only need to know the truth-value of $D$ and the truth-value of $E$. Connectives that work in this way are called \define{truth-functional}.
+
+In this chapter, we will make use of the fact that all of the logical operators in SL are truth-functional--- it makes it possible to construct truth tables to determine the logical features of sentences. You should realize, however, that this is not possible for all languages. In English, it is possible to form a new sentence from any simpler sentence \script{X} by saying `It is possible that \script{X}.' The truth-value of this new sentence does not depend directly on the truth-value of \script{X}. Even if \script{X} is false, perhaps in some sense \script{X} \emph{could} have been true--- then the new sentence would be true. Some formal languages, called \emph{modal logics}, have an operator for {possibility}. In a modal logic, we could translate `It is possible that \script{X}' as {\large $\diamond$}\script{X}. However, the ability to translate sentences like these come at a cost: The {\large $\diamond$} operator is not truth-functional, and so modal logics are not amenable to truth tables.
+
+
+\section{Complete truth tables}
+The truth-value of sentences which contain only one connective are given by the characteristic truth table for that connective. In the previous chapter, we wrote the characteristic truth tables with `T' for true and `F' for false. It is important to note, however, that this is not about truth in any deep or cosmic sense. Poets and philosophers can argue at length about the nature and significance \emph{truth}, but the truth functions in SL are just rules which transform input values into output values. To underscore this, in this chapter we will write `1' and `0' instead of `T' and `F'. Even though we interpret `1' as meaning `true' and `0' as meaning `false', computers can be programmed to fill out truth tables in a purely mechanical way. In a machine, `1' might mean that a register is switched on and `0' that the register is switched off. Mathematically, they are just the two possible values that a sentence of SL can have. The truth tables for the connectives of SL, written in terms of 1s and 0s, are given in table \ref{table.CharacteristicTTs}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c|c}
+\script{A} & \enot\script{A}\\
+\hline
+1 & 0\\
+0 & 1 
+\end{tabular}
+\ \ \ \ 
+\begin{tabular}{c|c|c|c|c|c}
+\script{A} & \script{B} & \script{A}\eand\script{B} & \script{A}\eor\script{B} & \script{A}\eif\script{B} & \script{A}\eiff\script{B}\\
+\hline
+1 & 1 & 1 & 1 & 1 & 1\\
+1 & 0 & 0 & 1 & 0 & 0\\
+0 & 1 & 0 & 1 & 1 & 0\\
+0 & 0 & 0 & 0 & 1 & 1
+\end{tabular}
+\end{center}
+\caption{The characteristic truth tables for the connectives of SL.}
+\label{table.CharacteristicTTs}
+\end{table}
+
+
+
+The characteristic truth table for conjunction, for example, gives the truth conditions for any sentence of the form $(\script{A}\eand\script{B})$. Even if the conjuncts \script{A} and \script{B} are long, complicated sentences, the conjunction is true if and only if both \script{A} and \script{B} are true. Consider the sentence $(H\eand I)\eif H$. We consider all the possible combinations of true and false for $H$ and $I$, which gives us four rows. We then copy the truth-values for the sentence letters and write them underneath the letters in the sentence.
+\begin{center}
+\begin{tabular}{c|c|@{\TTon}*{5}{c}@{\TToff}}
+$H$&$I$&$(H$&\eand&$I)$&\eif&$H$\\
+\hline
+ 1 & 1 & \TTbf{1} & & \TTbf{1} & & \TTbf{1}\\
+ 1 & 0 & \TTbf{1} & & \TTbf{0} & & \TTbf{1}\\
+ 0 & 1 & \TTbf{0} & & \TTbf{1} & & \TTbf{0}\\
+ 0 & 0 & \TTbf{0} & & \TTbf{0} & & \TTbf{0}
+\end{tabular}
+\end{center}
+Now consider the subsentence $H\eand I$. This is a conjunction \script{A}\eand\script{B} with $H$ as \script{A} and with $I$ as \script{B}. $H$ and $I$ are both true on the first row. Since a conjunction is true when both conjuncts are true, we write a 1 underneath the conjunction symbol. We continue for the other three rows and get this:
+\begin{center}
+\begin{tabular}{c|c|@{\TTon}*{5}{c}@{\TToff}}
+$H$&$I$&$(H$&\eand&$I)$&\eif&$H$\\
+\hline
+ & & \script{A} & \eand & \script{B} & & \\
+ 1 & 1 & 1 & \TTbf{1} & 1 & & 1\\
+ 1 & 0 & 1 & \TTbf{0} & 0 & & 1\\
+ 0 & 1 & 0 & \TTbf{0} & 1 & & 0\\
+ 0 & 0 & 0 & \TTbf{0} & 0 & & 0
+\end{tabular}
+\end{center}
+The entire sentence is a conditional \script{A}\eif\script{B} with $(H \eand I)$ as \script{A} and with $H$ as \script{B}. On the second row, for example, $(H\eand I)$ is false and $H$ is true. Since a conditional is true when the antecedent is false, we write a 1 in the second row underneath the conditional symbol. We continue for the other three rows and get this:
+\begin{center}
+\begin{tabular}{c|c|@{\TTon}*{5}{c}@{\TToff}}
+$H$&$I$&$(H$&\eand&$I)$&\eif&$H$\\
+\hline
+ & &  & \script{A} &  &\eif &\script{B} \\
+ 1 & 1 &  & {1} &  &\TTbf{1} & 1\\
+ 1 & 0 &  & {0} &  &\TTbf{1} & 1\\
+ 0 & 1 &  & {0} &  &\TTbf{1} & 0\\
+ 0 & 0 &  & {0} &  &\TTbf{1} & 0
+\end{tabular}
+\end{center}
+The column of 1s underneath the conditional tells us that the sentence \mbox{$(H \eand I)\eif I$} is true regardless of the truth-values of $H$ and $I$. They can be true or false in any combination, and the compound sentence still comes out true. It is crucial that we have considered all of the possible combinations. If we only had a two-line truth table, we could not be sure that the sentence was not false for some other combination of truth-values.
+
+In this example, we have not repeated all of the entries in every successive table. When actually writing truth tables on paper, however, it is impractical to erase whole columns or rewrite the whole table for every step. Although it is more crowded, the truth table can be written in this way:
+\begin{center}
+\begin{tabular}{c|c|@{\TTon}*{5}{c}@{\TToff}}
+$H$&$I$&$(H$&\eand&$I)$&\eif&$H$\\
+\hline
+ 1 & 1 & 1 & {1} & 1 & 1 & 1\\
+ 1 & 0 & 1 & {0} & 0 & 1 & 1\\
+ 0 & 1 & 0 & {0} & 1 & 1 & 0\\
+ 0 & 0 & 0 & {0} & 0 & 1 & 0
+\end{tabular}
+\end{center}
+Most of the columns underneath the sentence are only there for bookkeeping purposes. When you become more adept with truth tables, you will probably no longer need to copy over the columns for each of the sentence letters. In any case, the truth-value of the sentence on each row is just the column underneath the main logical operator of the sentence; in this case, the column underneath the conditional.
+
+A \define{complete truth table} has a row for all the possible combinations of 1 and 0 for all of the sentence letters. The size of the complete truth table depends on the number of different sentence letters in the table. A sentence that contains only one sentence letter requires only two rows, as in the characteristic truth table for negation. This is true even if the same letter is repeated many times, as in the sentence
+$[(C\eiff C) \eif C] \eand \enot(C \eif C)$.
+The complete truth table requires only two lines because there are only two possibilities: $C$ can be true or it can be false. A single sentence letter can never be marked both 1 and 0 on the same row. The truth table for this sentence looks like this:
+\begin{center}
+\begin{tabular}{c|@{\TTon}*{15}{c}@{\TToff}}
+$C$&$[($&$C$&\eiff&$C$&$)$&\eif&$C$&$]$&\eand&\enot&$($&$C$&\eif&$C$&$)$\\
+\hline
+ 1 &    & 1 &  1  & 1 &   & 1  & 1 & &\TTbf{0}&  0& &   1 &  1  & 1 &   \\
+ 0 &    & 0 &  1  & 0 &   & 0  & 0 & &\TTbf{0}&  0& &   0 &  1  & 0 &   \\
+\end{tabular}
+\end{center}
+Looking at the column underneath the main connective, we see that the sentence is false on both rows of the table; i.e., it is false regardless of whether $C$ is true or false.
+
+A sentence that contains two sentence letters requires four lines for a complete truth table, as in the characteristic truth tables and the table for $(H \eand I)\eif I$.
+
+A sentence that contains three sentence letters requires eight lines. For example:
+\begin{center}
+\begin{tabular}{c|c|c|@{\TTon}*{5}{c}@{\TToff}}
+$M$&$N$&$P$&$M$&\eand&$(N$&\eor&$P)$\\
+\hline
+%           M        &     N   v   P
+1 & 1 & 1 & 1 & \TTbf{1} & 1 & 1 & 1\\
+1 & 1 & 0 & 1 & \TTbf{1} & 1 & 1 & 0\\
+1 & 0 & 1 & 1 & \TTbf{1} & 0 & 1 & 1\\
+1 & 0 & 0 & 1 & \TTbf{0} & 0 & 0 & 0\\
+0 & 1 & 1 & 0 & \TTbf{0} & 1 & 1 & 1\\
+0 & 1 & 0 & 0 & \TTbf{0} & 1 & 1 & 0\\
+0 & 0 & 1 & 0 & \TTbf{0} & 0 & 1 & 1\\
+0 & 0 & 0 & 0 & \TTbf{0} & 0 & 0 & 0
+\end{tabular}
+\end{center}
+From this table, we know that the sentence $M\eand(N\eor P)$ might be true or false, depending on the truth-values of $M$, $N$, and $P$.
+
+A complete truth table for a sentence that contains four different sentence letters requires 16 lines. Five letters, 32 lines. Six letters, 64 lines. And so on. To be perfectly general: If a complete truth table has $n$ different sentence letters, then it must have $2^n$ rows.
+
+In order to fill in the columns of a complete truth table, begin with the right-most sentence letter and alternate 1s and 0s. In the next column to the left, write two 1s, write two 0s, and repeat. For the third sentence letter, write four 1s followed by four 0s. This yields an eight line truth table like the one above. For a 16 line truth table, the next column of sentence letters should have eight 1s followed by eight 0s. For a 32 line table, the next column would have 16 1s followed by 16 0s. And so on.
+
+
+\section{Using truth tables}
+
+\subsection{Tautologies, contradictions, and contingent sentences}
+Recall that an English sentence is a tautology if it must be true as a matter of logic. With a complete truth table, we consider all of the ways that the world might be. If the sentence is true on every line of a complete truth table, then it is true as a matter of logic, regardless of what the world is like.
+
+So a sentence is a \define{tautology in SL} if the column under its main connective is 1 on every row of a complete truth table.
+
+Conversely, a sentence is a \define{contradiction in SL} if the column under its main connective is 0 on every row of a complete truth table.
+
+A sentence is \define{contingent in SL} if it is neither a tautology nor a contradiction; i.e. if it is 1 on at least one row and 0 on at least one row.
+
+From the truth tables in the previous section, we know that $(H\eand I)\eif H$ is a tautology, that $[(C\eiff C) \eif C] \eand \enot(C \eif C)$ is a contradiction, and that $M \eand (N \eor P)$ is contingent.
+
+
+\subsection{Logical equivalence}
+Two sentences are logically equivalent in English if they have the same truth value as a matter logic. Once again, truth tables allow us to define an analogous concept for SL: Two sentences are \define{logically equivalent in SL} if they have the same truth-value on every row of a complete truth table.
+
+Consider the sentences $\enot(A \eor B)$ and $\enot A \eand \enot B$. Are they logically equivalent? To find out, we construct a truth table.
+\begin{center}
+\begin{tabular}{c|c|@{\TTon}*{4}{c}@{\TToff}|@{\TTon}*{5}{c}@{\TToff}}
+$A$&$B$&\enot&$(A$&\eor&$B)$&\enot&$A$&\eand&\enot&$B$\\
+\hline
+ 1 & 1 & \TTbf{0} & 1 & 1 & 1 & 0 & 1 & \TTbf{0} & 0 & 1\\
+ 1 & 0 & \TTbf{0} & 1 & 1 & 0 & 0 & 1 & \TTbf{0} & 1 & 0\\
+ 0 & 1 & \TTbf{0} & 0 & 1 & 1 & 1 & 0 & \TTbf{0} & 0 & 1\\
+ 0 & 0 & \TTbf{1} & 0 & 0 & 0 & 1 & 0 & \TTbf{1} & 1 & 0
+\end{tabular}
+\end{center}
+Look at the columns for the main connectives; negation for the first sentence, conjunction for the second. On the first three rows, both are 0. On the final row, both are 1. Since they match on every row, the two sentences are logically equivalent.
+
+\subsection{Consistency}
+A set of sentences in English is consistent if it is logically possible for them all to be true at once.
+A set of sentences is \define{logically consistent in SL} if there is at least one line of a complete truth table on which all of the sentences are true. It is \define{inconsistent} otherwise.
+
+\subsection{Validity}
+An argument in English is valid if it is logically impossible for the premises to be true and for the conclusion to be false at the same time.
+An argument is \define{valid in SL} if there is no row of a complete truth table on which the premises are all 1 and the conclusion is 0; an argument is \define{invalid in SL} if there is such a row.
+
+Consider this argument:
+\begin{earg}
+\item[] $\enot L \eif (J \eor L)$
+\item[] $\enot L$
+\item[\therefore] $J$
+\end{earg}
+Is it valid? To find out, we construct a truth table.
+\begin{center}
+\begin{tabular}{c|c|@{\TTon}*{6}{c}@{\TToff}|@{\TTon}*{2}{c}@{\TToff}|@{\TTon}c@{\TToff}}
+$J$&$L$&\enot&$L$&\eif&$(J$&\eor&$L)$&\enot&L&J\\
+\hline
+%J   L   -   L      ->     (J   v   L)
+ 1 & 1 & 0 & 1 & \TTbf{1} & 1 & 1 & 1 & \TTbf{0} & 1 & \TTbf{1}\\
+ 1 & 0 & 1 & 0 & \TTbf{1} & 1 & 1 & 0 & \TTbf{1} & 0 & \TTbf{1}\\
+ 0 & 1 & 0 & 1 & \TTbf{1} & 0 & 1 & 1 & \TTbf{0} & 1 & \TTbf{0}\\
+ 0 & 0 & 1 & 0 & \TTbf{0} & 0 & 0 & 0 & \TTbf{1} & 0 & \TTbf{0}
+\end{tabular}
+\end{center}
+Yes, the argument is valid.
+The only row on which both the premises are 1 is the second row, and on that row the conclusion is also 1.
+
+
+\section{Partial truth tables}
+In order to show that a sentence is a tautology, we need to show that it is 1 on every row. So we need a complete truth table. To show that a sentence is \emph{not} a tautology, however, we only need one line: a line on which the sentence is 0. Therefore, in order to show that something is not a tautology, it is enough to provide a one-line \emph{partial truth table}--- regardless of how many sentence letters the sentence might have in it.
+
+Consider, for example, the sentence $(U \eand T) \eif (S \eand W)$. We want to show that it is \emph{not} a tautology by providing a partial truth table. We fill in 0 for the entire sentence. The main connective of the sentence is a conditional. In order for the conditional to be false, the antecedent must be true (1) and the consequent must be false (0). So we fill these in on the table:
+\begin{center}
+\begin{tabular}{c|c|c|c|@{\TTon}*{7}{c}@{\TToff}}
+$S$&$T$&$U$&$W$&$(U$&\eand&$T)$&\eif    &$(S$&\eand&$W)$\\
+\hline
+   &   &   &   &    &  1  &    &\TTbf{0}&    &   0 &   
+\end{tabular}
+\end{center}
+In order for the $(U\eand T)$ to be true, both $U$ and $T$ must be true.
+\begin{center}
+\begin{tabular}{c|c|c|c|@{\TTon}*{7}{c}@{\TToff}}
+$S$&$T$&$U$&$W$&$(U$&\eand&$T)$&\eif    &$(S$&\eand&$W)$\\
+\hline
+   & 1 & 1 &   &  1 &  1  & 1  &\TTbf{0}&    &   0 &   
+\end{tabular}
+\end{center}
+Now we just need to make $(S\eand W)$ false. To do this, we need to make at least one of $S$ and $W$ false. We can make both $S$ and $W$ false if we want. All that matters is that the whole sentence turns out false on this line. Making an arbitrary decision, we finish the table in this way:
+\begin{center}
+\begin{tabular}{c|c|c|c|@{\TTon}*{7}{c}@{\TToff}}
+$S$&$T$&$U$&$W$&$(U$&\eand&$T)$&\eif    &$(S$&\eand&$W)$\\
+\hline
+ 0 & 1 & 1 & 0 &  1 &  1  & 1  &\TTbf{0}&  0 &   0 & 0  
+\end{tabular}
+\end{center}
+
+Showing that something is a contradiction requires a complete truth table. Showing that something is \emph{not} a contradiction requires only a one-line partial truth table, where the sentence is true on that one line.
+
+A sentence is contingent if it is neither a tautology nor a contradiction. So showing that a sentence is contingent requires a \emph{two-line} partial truth table: The sentence must be true on one line and false on the other. For example, we can show that the sentence above is contingent with this truth table:
+\begin{center}
+\begin{tabular}{c|c|c|c|@{\TTon}*{7}{c}@{\TToff}}
+$S$&$T$&$U$&$W$&$(U$&\eand&$T)$&\eif    &$(S$&\eand&$W)$\\
+\hline
+ 0 & 1 & 1 & 0 &  1 &  1  & 1  &\TTbf{0}&  0 &   0 & 0 \\
+ 0 & 1 & 0 & 0 &  0 &  0  & 1  &\TTbf{1}&  0 &   0 & 0
+\end{tabular}
+\end{center}
+Note that there are many combinations of truth values that would have made the sentence true, so there are many ways we could have written the second line.
+
+Showing that a sentence is \emph{not} contingent requires providing a complete truth table, because it requires showing that the sentence is a tautology or that it is a contradiction.  If you do not know whether a particular sentence is contingent, then you do not know whether you will need a complete or partial truth table. You can always start working on a complete truth table. If you complete rows that show the sentence is contingent, then you can stop. If not, then complete the truth table. Even though two carefully selected rows will show that a contingent sentence is contingent, there is nothing wrong with filling in more rows.
+
+Showing that two sentences are logically equivalent requires providing a complete truth table. Showing that two sentences are \emph{not} logically equivalent requires only a one-line partial truth table: Make the table so that one sentence is true and the other false.
+
+Showing that a set of sentences is consistent requires providing one row of a truth table on which all of the sentences are true. The rest of the table is irrelevant, so a one-line partial truth table will do. Showing that a set of sentences is inconsistent, on the other hand, requires a complete truth table: You must show that on every row of the table at least one of the sentences is false.
+
+Showing that an argument is valid requires a complete truth table. Showing that an argument is \emph{invalid} only requires providing a one-line truth table: If you can produce a line on which the premises are all true and the conclusion is false, then the argument is invalid.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c|c|c|}
+\cline{2-3}
+ & YES & NO\\
+\cline{2-3}
+tautology? & complete truth table & one-line partial truth table\\
+contradiction? &  complete truth table  & one-line partial truth table\\
+contingent? & two-line partial truth table & complete truth table\\
+equivalent? & complete truth table & one-line partial truth table\\
+consistent? & one-line partial truth table & complete truth table\\
+valid? & complete truth table & one-line partial truth table\\
+\cline{2-3}
+\end{tabular}
+\end{center}
+\caption{Do you need a complete truth table or a partial truth table? It depends on what you are trying to show.}
+\label{table.CompleteVsPartial}
+\end{table}
+
+Table \ref{table.CompleteVsPartial} summarizes when a complete truth table is required and when a partial truth table will do. 
+
+%\section{The material conditional}
+%\label{MaterialConditional}
+
+%The material conditional has some odd properties. For one thing, it does not require that the antecedent and consequent are related in any way.
+
+%contradiction in the antecedent
+
+%tautology in the consequent
+
+
+%\fix{Summary of test conditions}
+
+
+\practiceproblems
+If you want additional practice, you can construct truth tables for any of the sentences and arguments in the exercises for the previous chapter.
+
+\solutions
+\problempart
+\label{pr.TT.TTorC}
+Determine whether each sentence is a tautology, a contradiction, or a contingent sentence. Justify your answer with a complete or partial truth table where appropriate.
+\begin{earg}
+\item $A \eif A$ %taut
+\item $\enot B \eand B$ %contra
+\item $C \eif\enot C$ %contingent
+\item $\enot D \eor D$ %taut
+\item $(A \eiff B) \eiff \enot(A\eiff \enot B)$ %tautology
+\item $(A\eand B) \eor (B\eand A)$ %contingent
+\item $(A \eif B) \eor (B \eif A)$ % taut
+\item $\enot[A \eif (B \eif A)]$ %contra
+\item $(A \eand B) \eif (B \eor A)$  %taut
+\item $A \eiff [A \eif (B \eand \enot B)]$ %contra
+\item $\enot(A \eor B) \eiff (\enot A \eand \enot B)$ %taut
+\item $\enot(A\eand B) \eiff A$ %contingent
+\item $\bigl[(A\eand B) \eand\enot(A\eand B)\bigr] \eand C$ %contradiction
+\item $A\eif(B\eor C)$ %contingent
+\item $[(A \eand B) \eand C] \eif B$ %taut
+\item $(A \eand\enot A) \eif (B \eor C)$ %tautology
+\item $\enot\bigl[(C\eor A) \eor B\bigr]$ %contingent
+\item $(B\eand D) \eiff [A \eiff(A \eor C)]$%contingent
+\end{earg}
+
+
+\solutions
+\problempart
+\label{pr.TT.equiv}
+Determine whether each pair of sentences is logically equivalent. Justify your answer with a complete or partial truth table where appropriate.
+\begin{earg}
+\item $A$, $\enot A$ %No
+\item $A$, $A \eor A$ %Yes
+\item $A\eif A$, $A \eiff A$ %No
+\item $A \eor \enot B$, $A\eif B$ %No
+\item $A \eand \enot A$, $\enot B \eiff B$ %Yes
+\item $\enot(A \eand B)$, $\enot A \eor \enot B$ %Yes
+\item $\enot(A \eif B)$, $\enot A \eif \enot B$ %No
+\item $(A \eif B)$, $(\enot B \eif \enot A)$ %Yes
+\item $[(A \eor B) \eor C]$, $[A \eor (B \eor C)]$ %Yes
+\item $[(A \eor B) \eand C]$, $[A \eor (B \eand C)]$ %No
+\end{earg}
+
+\solutions
+\problempart
+\label{pr.TT.consistent}
+Determine whether each set of sentences is consistent or inconsistent. Justify your answer with a complete or partial truth table where appropriate.
+\begin{earg}
+\item $A\eif A$, $\enot A \eif \enot A$, $A\eand A$, $A\eor A$ %consistent
+\item $A \eand B$, $C\eif \enot B$, $C$ %inconsistent
+\item $A\eor B$, $A\eif C$, $B\eif C$ %consistent
+\item $A\eif B$, $B\eif C$, $A$, $\enot C$ %inconsistent
+\item $B\eand(C\eor A)$, $A\eif B$, $\enot(B\eor C)$  %inconsistent
+\item $A \eor B$, $B\eor C$, $C\eif \enot A$ %consistent
+\item $A\eiff(B\eor C)$, $C\eif \enot A$, $A\eif \enot B$ %consistent
+\item $A$, $B$, $C$, $\enot D$, $\enot E$, $F$ %consistent
+\end{earg}
+
+\solutions
+\problempart
+\label{pr.TT.valid}
+Determine whether each argument is valid or invalid. Justify your answer with a complete or partial truth table where appropriate.
+\begin{earg}
+\item $A\eif A$, \therefore\ $A$ %invalid
+\item $A\eor\bigl[A\eif(A\eiff A)\bigr]$, \therefore\ A %invalid
+\item $A\eif(A\eand\enot A)$, \therefore\ $\enot A$ %valid
+\item $A\eiff\enot(B\eiff A)$, \therefore\ $A$ %invalid
+\item $A\eor(B\eif A)$, \therefore\ $\enot A \eif \enot B$ %valid
+\item $A\eif B$, $B$, \therefore\ $A$ %invalid
+\item $A\eor B$, $B\eor C$, $\enot A$, \therefore\ $B \eand C$ %invalid
+\item $A\eor B$, $B\eor C$, $\enot B$, \therefore\ $A \eand C$ %valid
+\item $(B\eand A)\eif C$, $(C\eand A)\eif B$, \therefore\ $(C\eand B)\eif A$ %invalid
+\item $A\eiff B$, $B\eiff C$, \therefore\ $A\eiff C$ %valid
+\end{earg}
+
+\solutions
+\problempart
+\label{pr.TT.concepts}
+Answer each of the questions below and justify your answer.
+\begin{earg}
+\item Suppose that \script{A} and \script{B} are logically equivalent. What can you say about $\script{A}\eiff\script{B}$?
+%\script{A} and \script{B} have the same truth value on every line of a complete truth table, so $\script{A}\eiff\script{B}$ is true on every line. It is a tautology.
+\item Suppose that $(\script{A}\eand\script{B})\eif\script{C}$ is contingent. What can you say about the argument ``\script{A}, \script{B}, \therefore\script{C}''?
+%The sentence is false on some line of a complete truth table. On that line, \script{A} and \script{B} are true and \script{C} is false. So the argument is invalid.
+\item Suppose that $\{\script{A},\script{B}, \script{C}\}$ is inconsistent. What can you say about $(\script{A}\eand\script{B}\eand\script{C})$?
+%Since there is no line of a complete truth table on which all three sentences are true, the conjunction is false on every line. So it is a contradiction.
+\item Suppose that \script{A} is a contradiction. What can you say about the argument ``\script{A}, \script{B}, \therefore\script{C}''?
+%Since \script{A} is false on every line of a complete truth table, there is no line on which \script{A} and \script{B} are true and \script{C} is false. So the argument is valid.
+\item Suppose that \script{C} is a tautology. What can you say about the argument ``\script{A}, \script{B}, \therefore\script{C}''?
+%Since \script{C} is true on every line of a complete truth table, there is no line on which \script{A} and \script{B} are true and \script{C} is false. So the argument is valid.
+\item Suppose that \script{A} and \script{B} are logically equivalent. What can you say about $(\script{A}\eor\script{B})$?
+%Not much. $(\script{A}\eor\script{B})$ is a tautology if \script{A} and \script{B} are tautologies; it is a contradiction if they are contradictions; it is contingent if they are contingent.
+\item Suppose that \script{A} and \script{B} are \emph{not} logically equivalent. What can you say about $(\script{A}\eor\script{B})$?
+%\script{A} and \script{B} have different truth values on at least one line of a complete truth table, and $(\script{A}\eor\script{B})$ will be true on that line. On other lines, it might be true or false. So $(\script{A}\eor\script{B})$ is either a tautology or it is contingent; it is \emph{not} a contradiction.
+\end{earg}
+
+\problempart
+\label{pr.altConnectives}
+We could leave the biconditional (\eiff) out of the language. If we did that, we could still write `$A\eiff B$' so as to make sentences easier to read, but that would be shorthand for $(A\eif B) \eand (B\eif A)$. The resulting language would be formally equivalent to SL, since $A\eiff B$ and $(A\eif B) \eand (B\eif A)$ are logically equivalent in SL. If we valued formal simplicity over expressive richness, we could replace more of the connectives with notational conventions and still have a language equivalent to SL. 
+
+There are a number of equivalent languages with only two connectives. It would be enough to have only negation and the material conditional. Show this by writing sentences that are logically equivalent to each of the following using only parentheses, sentence letters, negation (\enot), and the material conditional (\eif).
+\begin{earg}
+\item\leftsolutions\ $A\eor B$
+%$\enot A \eif B$
+\item\leftsolutions\ $A\eand B$
+%$\enot(A \eif \enot B)$
+\item\leftsolutions\ $A\eiff B$
+%$\enot [(A\eif B) \eif \enot(B\eif A)]$
+\end{earg}
+%...
+% Break out of the {earg} environment to give new instructions. 
+
+We could have a language that is equivalent to SL with only negation and disjunction as connectives. Show this: Using only parentheses, sentence letters, negation (\enot), and disjunction (\eor), write sentences that are logically equivalent to each of the following.
+% Resume the {earg} environment and restore the counter.
+%...
+\begin{earg}
+\setcounter{eargnum}{\arabic{OLDeargnum}}
+\item $A \eand B$
+%$\enot(\enot A \eor \enot B)$
+\item $A \eif B$
+%$\enot A \eor B$
+\item $A \eiff B$
+%$\enot(\enot A \eor \enot B) \eor \enot(A \eor B)$
+\end{earg}
+%...
+The \emph{Sheffer stroke} is a logical connective with the following characteristic truthtable:
+\begin{center}
+\begin{tabular}{c|c|c}
+\script{A} & \script{B} & \script{A}$|$\script{B}\\
+\hline
+1 & 1 & 0\\
+1 & 0 & 1\\
+0 & 1 & 1\\
+0 & 0 & 1
+\end{tabular}
+\end{center}
+%...
+\begin{earg}
+\setcounter{eargnum}{\arabic{OLDeargnum}}
+\item Write a sentence using the connectives of SL that is logically equivalent to $(A|B)$.
+\end{earg}
+%...
+Every sentence written using a connective of SL can be rewritten as a logically equivalent sentence using one or more Sheffer strokes. Using only the Sheffer stroke, write sentences that are equivalent to each of the following. 
+%...
+\begin{earg}
+\setcounter{eargnum}{\arabic{OLDeargnum}}
+\item $\enot A$
+\item $(A\eand B)$
+\item $(A\eor B)$
+\item $(A\eif B)$
+\item $(A\eiff B)$
+\end{earg}
