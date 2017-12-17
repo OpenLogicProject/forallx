@@ -329,10 +329,10 @@ Removing $F$ from the symbolizations above produces sentences that talk about th
 
 \begin{proof}
 	\have[m]{a}{\script{A}\script{c}}
-	\have[\ ]{c}{\exists \script{x}\script{A}\script{x}^\ast} \Ei{a}
+	\have[\ ]{c}{\exists \script{x}\script{A}\script{x}} \Ei{a}
 \end{proof}
 
-$^\ast$ \script{x} may replace some or all occurrences of \script{c} in \script{A}\script{c}.
+Note that \script{x} may replace some or all occurrences of \script{c} in \script{A}\script{c}.
 
 
 
@@ -347,7 +347,7 @@ $^\ast$ \script{x} may replace some or all occurrences of \script{c} in \script{
 	\have[\ ]{d}{\script{B}} \Ee{a,b-c}
 \end{proof}
 
-$^\ast$ \script{c} must not appear outside the subproof.
+$^\ast$ \script{c} must not appear in $\exists\script{x}\script{A}\script{x}$, in \script{B}, or in any undischarged assumption.
 
 \textsc{Universal Introduction}
 
@@ -378,8 +378,7 @@ $^\ast$ \script{c} must not occur in any undischarged assumptions.
 \begin{proof}
 	\have[m]{e}{\script{c}=\script{d}}
 	\have[n]{a}{\script{A}}
-	\have[\ ]{ea1}{\script{A}\substitutesome{c}{d}} \by{=E}{e,a}
-	\have[\ ]{ea2}{\script{A}\substitutesome{d}{c}} \by{=E}{e,a}
+	\have[\ ]{ea1}{\script{A}{c}\circlearrowleft{d}} \by{=E}{e,a}
 \end{proof}
 
 One constant may replace some or all occurrences of the other.

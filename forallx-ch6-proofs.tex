@@ -557,9 +557,14 @@ Since all of the derived rules of SL are derived from the basic rules, they will
 
 In order to concisely state the rules for the quantifiers, we need a way to mark the relation between quantified sentences and their instances. For example, the sentence $Pa$ is a particular instance of the general claim $\forall x Px$.
 
-For a wff \script{A}, a constant $c$, and a variable $x$, define \script{A}\substitute{x}{c} to mean the wff that we get by replacing every occurrence of $x$ in \script{A} with $c$.
+For a wff \script{A}, a constant \script{c}, and a variable \script{x}, define a \define{substitution instance} of $\forall \script{x}\script{A}$ or $\exists \script{x}\script{A}$ is the wff that we get by replacing every occurrence of \script{x} in \script{A} with \script{c}. We call \script{c} the \define{instantiating constant}.
 
-\script{A}\substitute{x}{c} is called a \define{substitution instance} of $\forall x\script{A}$ and $\exists x\script{A}$, and $c$ is called the \define{instantiating constant}.
+To underscore the fact that the variable \script{x} is replaced by the instantiating constant \script{c}, we will write the original quantified expressions as $\forall \script{x}\script{A}\script{x}$ and $\exists \script{x}\script{A}\script{x}$. And we will write the substitution instance \script{A}\script{c}.
+
+Note that \script{A}, \script{x}, and \script{c} are all meta-variables. That is, they are stand-ins for any wff, variable, and constant whatsoever. And when we write \script{A}\script{c}, the constant \script{c} may occur multiple times in the wff \script{A}.
+
+
+For example:
 
 \begin{itemize}
 \item $Aa \eif Ba$, $Af \eif Bf$, and $Ak \eif Bk$ are all substitution instances of $\forall x(Ax \eif Bx)$; the instantiating constants are $a$, $f$, and $k$, respectively.
@@ -571,12 +576,11 @@ For a wff \script{A}, a constant $c$, and a variable $x$, define \script{A}\subs
 If you have $\forall x Ax$, it is legitimate to infer that anything is an $A$. You can infer $Aa$, $Ab$, $Az$, $Ad_3$. This is, you can infer any substitution instance -- in short, you can infer $A\script{c}$ for any constant \script{c}. This is the general form of the universal elimination rule ($\forall$E):
 
 \begin{proof}
-	\have[m]{a}{\forall \script{x}\script{A}}
-	\have[\ ]{c}{\script{A}\substitute{x}{c}} \Ae{a}
+	\have[m]{a}{\forall \script{x}\script{A}\script{x}}
+	\have[\ ]{c}{\script{A}\script{c}} \Ae{a}
 \end{proof}
 
-
-Remember that the box mark for a substitution instance is not a symbol of QL, so you cannot write it directly in a proof. Instead, you write the substituted sentence with the constant \script{c} replacing all occurrences of the variable \script{x} in \script{A}. For example:
+When using the $\forall$E rule, you write the substituted sentence with the constant \script{c} replacing all occurrences of the variable \script{x} in \script{A}. For example:
 
 \begin{proof}
 	\hypo{a}{\forall x(Mx \eif Rxd)}
@@ -592,11 +596,11 @@ When is it legitimate to infer $\exists x Ax$? If you know that something is an 
 This is the existential introduction rule ($\exists$I):
 
 \begin{proof}
-	\have[m]{a}{\script{A}}
-	\have[\ ]{c}{\exists \script{x}\script{A}\substitutesome{x}{c}} \Ei{a}
+	\have[m]{a}{\script{A}\script{c}}
+	\have[\ ]{c}{\exists \script{x}\script{A}\script{x}} \Ei{a}
 \end{proof}
 
-It is important to notice that \script{A}\substitutesome{x}{c} is not necessarily a substitution instance. We write it with double boxes to show that the variable \script{x} does not need to replace all occurrences of the constant \script{c}. You can decide which occurrences to replace and which to leave in place. For example:
+It is important to notice that the variable \script{x} does not need to replace all occurrences of the constant \script{c}. You can decide which occurrences to replace and which to leave in place. For example:
 
 \begin{proof}
 	\hypo{a}{Ma \eif Rad}
@@ -640,8 +644,8 @@ It is important here that $a$ was just some arbitrary constant. We had not made 
 This is the schematic form of the universal introduction rule ($\forall$I):
 
 \begin{proof}
-	\have[m]{a}{\script{A}}
-	\have[\ ]{c}{\forall \script{x}\script{A}\substitute{c^\ast}{x}} \Ai{a}
+	\have[m]{a}{\script{A}\script{c}^\ast}
+	\have[\ ]{c}{\forall \script{x}\script{A}\script{x}} \Ai{a}
 \end{proof}
 $^\ast$ The constant \script{c} must not occur in any undischarged assumption.
 
@@ -664,7 +668,7 @@ A sentence with an existential quantifier tells us that there is \emph{some} mem
 
 Suppose that we knew both $\exists x Sx$ and $\forall x(Sx \eif Tx)$. We could reason in this way:
 \begin{quote}
-Since $\exists x Sx$, there is something that is an $S$. We do not know which constants refer to this thing, if any do, so call this thing `Ishmael'. From $\forall x(Sx \eif Tx)$, it follows that if Ishmael an $S$, then it is a $T$. Therefore, Ishmael is a $T$.  Because Ishmael is a $T$, we know that $\exists x Tx$.
+Since $\exists x Sx$, there is something that is an $S$. We do not know which constants refer to this thing, if any do, so call this thing `Ishmael'. From $\forall x(Sx \eif Tx)$, it follows that if Ishmael is an $S$, then it is a $T$. Therefore, Ishmael is a $T$.  Because Ishmael is a $T$, we know that $\exists x Tx$.
 \end{quote}
 In this paragraph, we introduced a name for the thing that is an $S$. We gave it an arbitrary name (`Ishmael') so that we could reason about it and derive some consequences from there being an $S$. Since `Ishmael' is just a bogus name introduced for the purpose of the proof and not a genuine constant, we could not mention it in the conclusion. Yet we could derive a sentence that does not mention Ishmael; namely, $\exists x Tx$. This sentence does follow from the two premises.
 
@@ -675,19 +679,18 @@ A constant that is used to stand in for whatever it is that satisfies an existen
 This is the schematic form of the existential elimination rule ($\exists$E): 
 
 \begin{proof}
-	\have[m]{a}{\exists \script{x}\script{A}}
+	\have[m]{a}{\exists \script{x}\script{A}\script{x}}
 	\open	
-		\hypo[n]{b}{\script{A}\substitute{c^\ast}{x}}
+		\hypo[n]{b}{\script{A}\script{c}^\ast}
 		\have[p]{c}{\script{B}}
 	\close
 	\have[\ ]{d}{\script{B}} \Ee{a,b-c}
 \end{proof}
-$^\ast$ The constant \script{c} must not appear outside the subproof.
+$^\ast$ The constant \script{c} must not appear in $\exists\script{x}\script{A}\script{x}$, in \script{B}, or in any undischarged assumption.
 
-Remember that the proxy constant cannot appear in \script{B}, the sentence you prove using $\exists$E.
+Since the proxy constant is just a place holder that we use inside the subproof, it cannot be something that we know anything particular about. So it cannot appear in the original sentence $\exists\script{x}\script{A}\script{x}$ or in an undischarged assumption. Moreover, we do not learn anything about the proxy constant by using the $\exists$E rule. So it cannot appear in \script{B}, the sentence you prove using $\exists$E.
 
-It would be enough to require that the proxy constant not appear in $\exists\script{x}\script{A}$, in \script{B}, or in any undischarged assumption. In recognition of the fact that it is just a place holder that we use inside the subproof, though, we require an entirely new constant which does not appear anywhere else in the proof.
-
+The easiest way to satisfy these requirements is to pick an entirely new constant when you start the subproof, and then not to use that constant anywhere else in the proof. Once you close the subproof, do not mention it again.
 
 With this rule, we can give a formal proof that $\exists x Sx$ and $\forall x(Sx \eif Tx)$ together entail $\exists x Tx$.
 
@@ -723,7 +726,7 @@ When translating from English to QL, we noted that $\enot\exists x\enot\script{A
 			\have{nAa}{\enot\forall x Ax}\ni{Aa2-nc2}
 		\close
 		\have{Aa3}{\forall x Ax}\by{R}{Aa}
-		\have{nAa3}{\enot\forall x Ax}\Ee{nc-nAa}
+		\have{nAa3}{\enot\forall x Ax}\Ee{Ena,nc-nAa}
 	\close
 	\have{nEna}{\enot\exists x\enot Ax}\ni{Ena-nAa3}
 \end{proof}
@@ -754,13 +757,22 @@ However, it is always true that $a=a$. In general, no premises are required in o
 
 Notice that the {=}I rule does not require referring to any prior lines of the proof. For any constant \script{c}, you can write $\script{c}=\script{c}$ on any point with only the {=}I rule as justification.
 
-If you have shown that $a=b$, then anything that is true of $a$ must also be true of $b$. For any sentence with $a$ in it, you can replace some or all of the occurrences of $a$ with $b$ and produce an equivalent sentence. For example, if you already know $Raa$, then you are justified in concluding $Rab$, $Rba$, $Rbb$. Recall that $\script{A}\substitutesome{a}{b}$ is the sentence produced by replacing \script{a} in \script{A} with \script{b}. This is not the same as a substitution instance, because \script{b} may replace some or all occurrences of \script{a}. The identity elimination rule ({=}E) justifies replacing terms with other terms that are identical to it:
+If you have shown that $a=b$, then anything that is true of $a$ must also be true of $b$. For any sentence with $a$ in it, you can replace some or all of the occurrences of $a$ with $b$ and produce an equivalent sentence. For example, if you already know $Raa$, then you are justified in concluding $Rab$, $Rba$, $Rbb$.
+
+
+The identity elimination rule ({=}E) justifies replacing terms with other terms that are identical to it.
+
+For writing the rule, we will introduce a new bit of symoblism. For a sentence \script{A} and constants \script{c} and \script{d}, \script{A}{\script{c}$\circlearrowleft$\script{d}} is the sentence produced by replacing some or all instances of \script{c} in \script{A} with \script{d} or replacing instances of \script{d} with \script{c}. This is not the same as a substitution instance, because one constant need not replace every occurrence of the other (although it may).
+
+We can now concisely write {=}E in this way:
 \begin{proof}
-	\have[m]{e}{\script{a}=\script{b}}
+	\have[m]{e}{\script{c}=\script{d}}
 	\have[n]{a}{\script{A}}
-	\have[\ ]{ea1}{\script{A}\substitutesome{a}{b}} \by{=E}{e,a}
-	\have[\ ]{ea2}{\script{A}\substitutesome{b}{a}} \by{=E}{e,a}
+	\have[\ ]{ea1}{\script{A}\script{c}\circlearrowleft\script{d}} \by{=E}{e,a}
 \end{proof}
+\nopagebreak
+
+
 
 %The basic rules for conjunction can be valuable in a proof even if there are no conjunctions in any of the assumptions; the basic rules for disjunction can be used even if there are no disjunctions in any assumptions; and similarly for the other basic rules. The rules for identity are different, in that there must be an identity claim in some assumption in order for the rules to do any work. Other than the trivial identity that we can introduce with the {=}I rule
 
