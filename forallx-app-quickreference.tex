@@ -208,15 +208,22 @@ Removing $F$ from the symbolizations above produces sentences that talk about th
 \begin{proof}
 	\have[m]{ab}{\script{A}\eand\script{B}}
 	\have[\ ]{a}{\script{A}} \ae{ab}
-	\have[\ ]{b}{\script{B}} \ae{ab}
 \end{proof}
 
+\begin{proof}
+	\have[m]{ab}{\script{A}\eand\script{B}}
+	\have[\ ]{b}{\script{B}} \ae{ab}
+\end{proof}
 
 \textsc{Disjunction Introduction}
 
 \begin{proof}
 	\have[m]{a}{\script{A}}
 	\have[\ ]{ab}{\script{A}\eor\script{B}}\oi{a}
+\end{proof}
+
+\begin{proof}
+	\have[m]{a}{\script{A}}
 	\have[\ ]{ba}{\script{B}\eor\script{A}}\oi{a}
 \end{proof}
 
@@ -321,20 +328,20 @@ Removing $F$ from the symbolizations above produces sentences that talk about th
 \textsc{Existential Introduction}
 
 \begin{proof}
-	\have[m]{a}{\script{A}}
-	\have[\ ]{c}{\exists \script{x}\script{A}\substitutesome{c^\ast}{x}} \Ei{a}
+	\have[m]{a}{\script{A}\script{c}}
+	\have[\ ]{c}{\exists \script{x}\script{A}\script{x}^\ast} \Ei{a}
 \end{proof}
 
-$^\ast$ \script{x} may replace some or all occurrences of \script{c} in \script{A}.
+$^\ast$ \script{x} may replace some or all occurrences of \script{c} in \script{A}\script{c}.
 
 
 
 \textsc{Existential Elimination}
 
 \begin{proof}
-	\have[m]{a}{\exists \script{x}\script{A}}
+	\have[m]{a}{\exists \script{x}\script{A}\script{x}}
 	\open	
-		\hypo[n]{b}{\script{A}\substitute{x}{c^\ast}}
+		\hypo[n]{b}{\script{A}\script{c}^\ast}
 		\have[p]{c}{\script{B}}
 	\close
 	\have[\ ]{d}{\script{B}} \Ee{a,b-c}
@@ -345,18 +352,18 @@ $^\ast$ \script{c} must not appear outside the subproof.
 \textsc{Universal Introduction}
 
 \begin{proof}
-	\have[m]{a}{\script{A}}
-	\have[\ ]{c}{\forall \script{x}\script{A}\substitute{c}{x}} \Ai{a}
+	\have[m]{a}{\script{A}\script{c}^\ast}
+	\have[\ ]{c}{\forall \script{x}\script{A}\script{x}} \Ai{a}
 \end{proof}
 
-\script{c} must not occur in any undischarged assumptions.
+$^\ast$ \script{c} must not occur in any undischarged assumptions.
 
 
 \textsc{Universal Elimination}
 
 \begin{proof}
-	\have[m]{a}{\forall \script{x}\script{A}}
-	\have[\ ]{c}{\script{A}\substitute{x}{c}} \Ae{a}
+	\have[m]{a}{\forall \script{x}\script{A}\script{x}}
+	\have[\ ]{c}{\script{A}\script{c}} \Ae{a}
 \end{proof}
 
 
