@@ -573,7 +573,9 @@ For example:
 
 \subsection{Universal elimination}
 
-If you have $\forall x Ax$, it is legitimate to infer that anything is an $A$. You can infer $Aa$, $Ab$, $Az$, $Ad_3$. This is, you can infer any substitution instance -- in short, you can infer $A\script{c}$ for any constant \script{c}. This is the general form of the universal elimination rule ($\forall$E):
+If you have $\forall x Ax$, it is legitimate to infer that anything is an $A$. You can infer $Aa$, $Ab$, $Az$, $Ad_3$. You can infer any substitution instance, $A\script{c}$ for any constant \script{c}.
+
+This is the general form of the universal elimination rule ($\forall$E):
 
 \begin{proof}
 	\have[m]{a}{\forall \script{x}\script{A}\script{x}}
@@ -591,7 +593,7 @@ When using the $\forall$E rule, you write the substituted sentence with the cons
 
 \subsection{Existential introduction}
 
-When is it legitimate to infer $\exists x Ax$? If you know that something is an $A$--- for instance, if you have $Aa$ available in the proof.
+It is legitimate to infer $\exists x Px$ if you know that \emph{something} is a $P$. It might be any particular thing at all. For example, if you have $Pa$ available in the proof, then $\exists x Px$ follows. 
 
 This is the existential introduction rule ($\exists$I):
 
@@ -601,7 +603,7 @@ This is the existential introduction rule ($\exists$I):
 \end{proof}
 
 It is important to notice that the variable \script{x} does not need to replace all occurrences of the constant \script{c}. You can decide which occurrences to replace and which to leave in place. For example:
-
+\nopagebreak
 \begin{proof}
 	\hypo{a}{Ma \eif Rad}
 	\have{b}{\exists x(Ma \eif Rax)} \Ei{a}
@@ -613,9 +615,9 @@ It is important to notice that the variable \script{x} does not need to replace 
 
 
 \subsection{Universal introduction}
-A universal claim like $\forall x Px$ would be proven if {every} substitution instance of it had been proven, if every sentence $Pa$, $Pb$, $\ldots$ were available in a proof. Alas, there is no hope of proving \emph{every} substitution instance. That would require proving $Pa$, $Pb$, $\ldots$, $Pj_2$, $\ldots$, $Ps_7$, $\ldots$, and so on to infinity. There are infinitely many constants in QL, and so this process would never come to an end.
+A universal claim like $\forall x Px$ would be proven if {every} substitution instance of it had been proven. That is, if every sentence $Pa$, $Pb$, $\ldots$ were available in a proof, then you would certainly be entitled to claim $\forall x Px$. Alas, there is no hope of proving \emph{every} substitution instance. That would require proving $Pa$, $Pb$, $\ldots$, $Pj_2$, $\ldots$, $Ps_7$, $\ldots$, and so on to infinity. There are infinitely many constants in QL, and so this process would never come to an end.
 
-Consider a simple argument: $\forall x Mx$, \therefore\ $\forall y My$
+Consider instead a simple argument: $\forall x Mx$, \therefore\ $\forall y My$
 
 It makes no difference to the meaning of the sentence whether we use the variable $x$ or the variable $y$, so this argument is obviously valid. Suppose we begin in this way:
 
@@ -672,7 +674,7 @@ Since $\exists x Sx$, there is something that is an $S$. We do not know which co
 \end{quote}
 In this paragraph, we introduced a name for the thing that is an $S$. We gave it an arbitrary name (`Ishmael') so that we could reason about it and derive some consequences from there being an $S$. Since `Ishmael' is just a bogus name introduced for the purpose of the proof and not a genuine constant, we could not mention it in the conclusion. Yet we could derive a sentence that does not mention Ishmael; namely, $\exists x Tx$. This sentence does follow from the two premises.
 
-We want the existential elimination rule to work in a similar way. Yet since English language worlds like `Ishmael' are not symbols of QL, we cannot use them in formal proofs. Instead, we will use constants of QL which do not otherwise appear in the proof.
+We want the existential elimination rule to work in a similar way. Yet since English language words like `Ishmael' are not symbols of QL, we cannot use them in formal proofs. Instead, we will use constants of QL which do not otherwise appear in the proof.
 
 A constant that is used to stand in for whatever it is that satisfies an existential claim is called a \define{proxy}. Reasoning with the proxy must all occur inside a subproof, and the proxy cannot be a constant that is doing work elsewhere in the proof.
 
@@ -698,15 +700,15 @@ With this rule, we can give a formal proof that $\exists x Sx$ and $\forall x(Sx
 	\hypo{es}{\exists x Sx}
 	\hypo{ast}{\forall x(Sx \eif Tx)}\by{want $\exists x Tx$}{}
 	\open
-		\hypo{s}{Sa}
-		\have{st}{Sa \eif Ta}\Ae{ast}
-		\have{t}{Ta} \ce{s,st}
+		\hypo{s}{Si}
+		\have{st}{Si \eif Ti}\Ae{ast}
+		\have{t}{Ti} \ce{s,st}
 		\have{et1}{\exists x Tx}\Ei{t}
 	\close
 	\have{et2}{\exists x Tx}\Ee{es,s-et1}
 \end{proof}
 
-Notice that this has effectively the same structure as the English-language argument with which we began, except that the subproof uses the proxy constant `$a$' rather than the bogus name `Ishmael'.
+Notice that this has effectively the same structure as the English-language argument with which we began, except that the subproof uses the proxy constant `$i$' rather than the bogus name `Ishmael'.
 
 \subsection{Quantifier negation}
 
