@@ -49,6 +49,16 @@
 	\ifthenelse{\day<10}{0}{}\number\day%
 }  
 
+% table of contents
+\renewcommand{\contentsname}{\forallx\ contents}
+% chapter
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\bfseries}
+{{\titlerule[2pt]}\LARGE Chapter \thechapter}
+{1ex}
+{\Huge}
+[\vspace{1ex}{\titlerule[2pt]}]
 
 
 %    ****************************************
