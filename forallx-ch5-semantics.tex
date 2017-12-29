@@ -399,8 +399,29 @@ Similarly, we can show that a set of sentences is consistent by constructing a m
 
 
 
+\subsection{Reasoning about all models}
+We can show that a sentence is \emph{not} a tautology just by providing one carefully specified model: a model in which the sentence is false. To show that something is a tautology, on the other hand, it would not be enough to construct ten, one hundred, or even a thousand models in which the sentence is true. It is only a tautology if it is true in \emph{every} model, and there are infinitely many models. This cannot be avoided just by constructing partial models, because there are infinitely many partial models.
 
-\begin{table}[t]
+Consider, for example, the sentence $Raa\eiff Raa$. There are two logically distinct partial models of this sentence that have a 1-member UD. There are 32 distinct partial models that have a 2-member UD. There are 1526 distinct partial models that have a 3-member UD. There are 262,144 distinct partial models that have a 4-member UD. And so on to infinity. In order to show that this sentence is a tautology, we need to show something about all of these models. There is no hope of doing so by dealing with them one at a time.
+
+Nevertheless, $Raa\eiff Raa$ is obviously a tautology. We can prove it with a simple argument:
+\begin{quote}
+\label{allmodels1}
+There are two kinds of models: those in which ${\langle}\referent{a},\referent{a}{\rangle}$ is in the extension of $R$ and those in which it is not. In the first kind of model, $Raa$ is true; by the truth table for the biconditional, $Raa\eiff Raa$ is also true. In the second kind of model, $Raa$ is false; this makes $Raa\eiff Raa$ true. Since the sentence is true in both kinds of model, and since every model is one of the two kinds, $Raa\eiff Raa$ is true in every model. Therefore, it is a tautology.
+\end{quote}
+This argument is valid, of course, and its conclusion is true. However, it is not an argument in QL. Rather, it is an argument in English \emph{about} QL; it is an argument in the metalanguage. There is no formal procedure for evaluating or constructing natural language arguments like this one. The imprecision of natural language is the very reason we began thinking about formal languages.
+
+There are further difficulties with this approach.
+
+Consider the sentence $\forall x(Rxx\eif Rxx)$, another obvious tautology. It might be tempting to reason in this way: `$Rxx\eif Rxx$ is true in every model, so $\forall x(Rxx\eif Rxx)$ must be true.' The problem is that $Rxx\eif Rxx$ is \emph{not} true in every model. It is not a sentence, and so it is \emph{neither} true \emph{nor} false. We do not yet have the vocabulary to say what we want to say about $Rxx\eif Rxx$. In the next section, we introduce the concept of \emph{satisfaction}; after doing so, we will be better able to provide an argument that $\forall x(Rxx\eif Rxx)$ is a tautology.
+
+It is necessary to reason about an infinity of models to show that a sentence is a tautology. Similarly, it is necessary to reason about an infinity of models to show that a sentence is a contradition, that two sentences are equivalent, that a set of sentences is inconsistent, or that an argument is valid. There are other things we can show by carefully constructing a model or two. Table \ref{table.ModelOrArgument} summarizes which things are which.
+
+
+
+
+
+\begin{table}[h!]
 \caption{It is relatively easy to answer a question if you can do it by constructing a model or two. It is much harder if you need to reason about all possible models. This table shows when constructing models is enough.}
 \label{table.ModelOrArgument}
 \begin{center}
@@ -428,34 +449,6 @@ Is the argument \mbox{`\script{P}, \therefore\ \script{C}'} valid? & {show that 
 \end{tabular*}
 \end{center}
 \end{table}
-
-
-
-
-
-
-\subsection{Reasoning about all models}
-We can show that a sentence is \emph{not} a tautology just by providing one carefully specified model: a model in which the sentence is false. To show that something is a tautology, on the other hand, it would not be enough to construct ten, one hundred, or even a thousand models in which the sentence is true. It is only a tautology if it is true in \emph{every} model, and there are infinitely many models. This cannot be avoided just by constructing partial models, because there are infinitely many partial models.
-
-Consider, for example, the sentence $Raa\eiff Raa$. There are two logically distinct partial models of this sentence that have a 1-member UD. There are 32 distinct partial models that have a 2-member UD. There are 1526 distinct partial models that have a 3-member UD. There are 262,144 distinct partial models that have a 4-member UD. And so on to infinity. In order to show that this sentence is a tautology, we need to show something about all of these models. There is no hope of doing so by dealing with them one at a time.
-
-Nevertheless, $Raa\eiff Raa$ is obviously a tautology. We can prove it with a simple argument:
-\begin{quote}
-\label{allmodels1}
-There are two kinds of models: those in which ${\langle}\referent{a},\referent{a}{\rangle}$ is in the extension of $R$ and those in which it is not. In the first kind of model, $Raa$ is true; by the truth table for the biconditional, $Raa\eiff Raa$ is also true. In the second kind of model, $Raa$ is false; this makes $Raa\eiff Raa$ true. Since the sentence is true in both kinds of model, and since every model is one of the two kinds, $Raa\eiff Raa$ is true in every model. Therefore, it is a tautology.
-\end{quote}
-This argument is valid, of course, and its conclusion is true. However, it is not an argument in QL. Rather, it is an argument in English \emph{about} QL; it is an argument in the metalanguage. There is no formal procedure for evaluating or constructing natural language arguments like this one. The imprecision of natural language is the very reason we began thinking about formal languages.
-
-There are further difficulties with this approach.
-
-Consider the sentence $\forall x(Rxx\eif Rxx)$, another obvious tautology. It might be tempting to reason in this way: `$Rxx\eif Rxx$ is true in every model, so $\forall x(Rxx\eif Rxx)$ must be true.' The problem is that $Rxx\eif Rxx$ is \emph{not} true in every model. It is not a sentence, and so it is \emph{neither} true \emph{nor} false. We do not yet have the vocabulary to say what we want to say about $Rxx\eif Rxx$. In the next section, we introduce the concept of \emph{satisfaction}; after doing so, we will be better able to provide an argument that $\forall x(Rxx\eif Rxx)$ is a tautology.
-
-It is necessary to reason about an infinity of models to show that a sentence is a tautology. Similarly, it is necessary to reason about an infinity of models to show that a sentence is a contradition, that two sentences are equivalent, that a set of sentences is inconsistent, or that an argument is valid. There are other things we can show by carefully constructing a model or two. Table \ref{table.ModelOrArgument} summarizes which things are which.
-
-
-
-
-
 
 
 

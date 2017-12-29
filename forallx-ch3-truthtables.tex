@@ -12,9 +12,11 @@ In this chapter, we will make use of the fact that all of the logical operators 
 
 
 \section{Complete truth tables}
-The truth-value of sentences which contain only one connective are given by the characteristic truth table for that connective. In the previous chapter, we wrote the characteristic truth tables with `T' for true and `F' for false. It is important to note, however, that this is not about truth in any deep or cosmic sense. Poets and philosophers can argue at length about the nature and significance \emph{truth}, but the truth functions in SL are just rules which transform input values into output values. To underscore this, in this chapter we will write `1' and `0' instead of `T' and `F'. Even though we interpret `1' as meaning `true' and `0' as meaning `false', computers can be programmed to fill out truth tables in a purely mechanical way. In a machine, `1' might mean that a register is switched on and `0' that the register is switched off. Mathematically, they are just the two possible values that a sentence of SL can have. The truth tables for the connectives of SL, written in terms of 1s and 0s, are given in table \ref{table.CharacteristicTTs}.
+The truth-value of sentences which contain only one connective are given by the characteristic truth table for that connective. In the previous chapter, we wrote the characteristic truth tables with `T' for true and `F' for false. It is important to note, however, that this is not about truth in any deep or cosmic sense. Poets and philosophers can argue at length about the nature and significance \emph{truth}, but the truth functions in SL are just rules which transform input values into output values. To underscore this, in this chapter we will write `1' and `0' instead of `T' and `F'. Even though we interpret `1' as meaning `true' and `0' as meaning `false', computers can be programmed to fill out truth tables in a purely mechanical way. In a machine, `1' might mean that a register is switched on and `0' that the register is switched off. Mathematically, they are just the two possible values that a sentence of SL can have.
 
-\begin{table}
+Here are the truth tables for the connectives of SL, written in terms of 1s and 0s.
+
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{c|c}
 \script{A} & \enot\script{A}\\
@@ -235,7 +237,9 @@ Showing that a set of sentences is consistent requires providing one row of a tr
 
 Showing that an argument is valid requires a complete truth table. Showing that an argument is \emph{invalid} only requires providing a one-line truth table: If you can produce a line on which the premises are all true and the conclusion is false, then the argument is invalid.
 
-\begin{table}
+Here is a table that summarizes when a complete truth table is required and when a partial truth table will do.
+
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{c|c|c|}
 \cline{2-3}
@@ -254,7 +258,7 @@ valid? & complete truth table & one-line partial truth table\\
 \label{table.CompleteVsPartial}
 \end{table}
 
-Table \ref{table.CompleteVsPartial} summarizes when a complete truth table is required and when a partial truth table will do. 
+ 
 
 %\section{The material conditional}
 %\label{MaterialConditional}
