@@ -37,8 +37,6 @@ By modus ponens, (1) and (2) entail $J \eor L$. This is an \emph{intermediate co
 
 Formally, a \define{proof} is a sequence of sentences. The first sentences of the sequence are assumptions; these are the premises of the argument. Every sentence later in the sequence follows from earlier sentences by one of the rules of proof. The final sentence of the sequence is the conclusion of the argument.
 
-Logical proofs are called \emph{derivations}. So `derive' means the same thing as `prove'.
-
 This chapter begins with a proof system for SL, which is then extended to cover QL and QL plus identity.
 
 
@@ -876,37 +874,23 @@ Try different things. If one approach fails, then try something else.
 
 \section{Proof-theoretic concepts}
 
-Working with proofs allows us to define a number of related concepts. The most basic of these is \emph{provability}. If it is possible to write a proof which assumes \script{A} and concludes \script{B}, then we say `\script{B} is provable from \script{A}.' We abbreviate this $\script{A}\vdash\script{B}$.
+We will use the symbol `$\vdash$' to indicate that a proof is possible. This symbol is called the \emph{turnstile}. Sometimes it is called a \emph{single turnstile}, to underscore the fact that this is not the {double turnstile} symbol ($\models$) that we used to represent semantic entailment in ch.~\ref{ch.semantics}.
 
-Since that `derive' and `prove' are synonyms, $\script{A}\vdash\script{B}$ can also be read as as `\script{B} is derivable from \script{A}.'
+When we write $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\script{B}$, this means that it is possible to give a proof of \script{B} with $\script{A}_1$,$\script{A}_2$,$\ldots$ as premises. With just one premise, we leave out the curly braces, so $\script{A}\vdash\script{B}$ means that there is a proof of \script{B} with \script{A} as a premise. Naturally, $\vdash\script{C}$ means that there is a proof of \script{C} that has no premises.
 
-The `$\vdash$' symbol is called the \emph{turnstile}. Sometimes it is called a \emph{single turnstile}, to underscore the fact that this is not the {double turnstile} symbol ($\models$) that we used to represent semantic entailment in ch.~\ref{ch.semantics}.
+Often, logical proofs are called \emph{derivations}. So $\script{A}\vdash\script{B}$ can be read as `\script{B} is derivable from \script{A}.'
 
-For proofs with more than one assumption, we can put a set of sentences on the lefthand side of the turnstile. So $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\script{B}$ means that it is possible to give a proof of \script{B} with $\script{A}_1$,$\script{A}_2$,$\ldots$ as premises.
+A \define{theorem} is a sentence that is derivable without any premises; i.e., \script{T} is a theorem if and only if $\vdash\script{T}$.
 
-For proofs with no assumptions, we write nothing on the lefthand side of the turnstile. So $\vdash\script{C}$ means that there is a proof of \script{C} that has no premises.
-
-\subsection{Theorems}
-
-We define a \define{theorem} as a sentence that is derivable without any premises; i.e., \script{T} is a theorem if and only if $\vdash\script{T}$.
-
-It is not too hard to show that something is a theorem. You just have to give a proof of it.
-
-But how could you show that something is \emph{not} a theorem? If its negation is a theorem, then you could provide a proof. For example, it is easy to prove $\enot(Pa \eand \enot Pa)$, which shows that $(Pa \eand \enot Pa)$ cannot be a theorem. For a sentence that is neither a theorem nor the negation of a theorem, however, there is no easy way to show this. You would have to demonstrate not just that certain proof strategies fail, but that no proof is possible. Even if you fail in trying to prove a sentence in a thousand different ways, perhaps the proof is just too long and complex for you to make out.
-
-\subsection{Other concepts}
+It is not too hard to show that something is a theorem--- you just have to give a proof of it. How could you show that something is \emph{not} a theorem? If its negation is a theorem, then you could provide a proof. For example, it is easy to prove $\enot(Pa \eand \enot Pa)$, which shows that $(Pa \eand \enot Pa)$ cannot be a theorem. For a sentence that is neither a theorem nor the negation of a theorem, however, there is no easy way to show this. You would have to demonstrate not just that certain proof strategies fail, but that no proof is possible. Even if you fail in trying to prove a sentence in a thousand different ways, perhaps the proof is just too long and complex for you to make out.
 
 Two sentences \script{A} and \script{B} are \define{provably equivalent} if and only if each can be derived from the other; i.e., $\script{A}\vdash\script{B}$ and $\script{B}\vdash\script{A}$
 
-It is relatively easy to show that two sentences are provably equivalent. It just requires a pair of proofs.
-
-Showing that sentences are \emph{not} provably equivalent would be much harder. It would be just as hard as showing that a sentence is not a theorem. (In fact, these problems are interchangeable. Can you think of a sentence that would be a theorem if and only if \script{A} and \script{B} were provably equivalent?)
+It is relatively easy to show that two sentences are provably equivalent--- it just requires a pair of proofs. Showing that sentences are \emph{not} provably equivalent would be much harder. It would be just as hard as showing that a sentence is not a theorem. (In fact, these problems are interchangeable. Can you think of a sentence that would be a theorem if and only if \script{A} and \script{B} were provably equivalent?)
 
 The set of sentences $\{\script{A}_1,\script{A}_2,\ldots\}$ is \define{provably inconsistent} if and only if a contradiction is derivable from it; i.e., for some sentence \script{B}, $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\script{B}$ and $\{\script{A}_1,\script{A}_2,\ldots\}\vdash\enot \script{B}$.
 
-It is easy to show that a set is provably inconsistent. You just need to assume the sentences in the set and prove a contradiction.
-
-Showing that a set is \emph{not} provably inconsistent would be much harder. It would require more than just providing a proof or two. Instead, it would require showing that proofs of a certain kind are \emph{impossible}.
+It is easy to show that a set is provably inconsistent: You just need to assume the sentences in the set and prove a contradiction. Showing that a set is \emph{not} provably inconsistent will be much harder. It would require more than just providing a proof or two; it would require showing that proofs of a certain kind are \emph{impossible}.
 
 
 
@@ -983,7 +967,7 @@ Consider, for example, the {\eand}I rule. Suppose we use it to add \script{A}\ea
 
 In order to show that the proof system is sound, we would need to show this for the other inference rules. Since the derived rules are consequences of the basic rules, it would suffice to provide similar arguments for the 16 other basic rules. This tedious exercise falls beyond the scope of this book.
 
-Given that the proof system is sound, it follows that every theorem is a tautology.
+Given a proof that the proof system is sound, it follows that every theorem is a tautology.
 
 It is still possible to ask: Why think that \emph{every} valid argument is an argument that can be proven?  That is, why think that $\script{A}\models\script{B}$ implies $\script{A}\vdash\script{B}$?
 
