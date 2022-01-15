@@ -9,7 +9,7 @@ The year listed is the date of the first fork. Many have been revised and have a
 3. Tim Button, University of Cambridge, UK, [forall x: Cambridge](https://people.ds.cam.ac.uk/tecb2/forallxcam.pdf) (2012)
 4. Nathan Carter, Bentley University, [forall x in Lurch](https://web.bentley.edu/empl/c/ncarter/faxil/) (2013)
 5. **[in Spanish]** José Ángel Gascón, Universidad Nacional de Educación a Distancia, Spain [paratodo x: Una Introducción a la Lógica Formal](https://scholarsarchive.library.albany.edu/cas_philosophy_scholar_books/4/) (2015)
-6. E.J.R. Elliott, University of Leeds, [forall x Leeds](http://www.edwardjrelliott.com/teaching.html) (2016)
+6. E.J.R. Elliott, University of Leeds, [forall x Leeds](http://www.edwardjrelliott.com/misc-resources.html) (2016)
 7. Aaron Thomas-Bolduc and Richard Zach, University of Calgary, [forall x: Calgary remix](https://forallx.openlogicproject.org/) (2017)
 8. Anthony Eagle, University of Adelaide, [forall x Adelaide](https://github.com/antonyeagle/forallx-adl) (2017)
 9. Jonathan Jenkins Ichikawa, University of British Columbia, [forall x UBC edition](https://philpapers.org/rec/MAGFXU) (2017)
