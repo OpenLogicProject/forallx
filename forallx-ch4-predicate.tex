@@ -317,7 +317,7 @@ Sentence \ref{monkey1} can now be translated as $\forall x(Mx \eif Sx)$.
 
 Sentence \ref{monkey2} becomes $\exists x(Mx \eand Sx)$.
 
-It is tempting to say that sentence \ref{monkey1} entails sentence \ref{monkey2}; that is: if every monkey knows sign language, then it must be that some monkey knows sign language. This is a valid inference in Aristotelean logic: All $M$s are $S$, \therefore\ some $M$ is $S$. However, the entailment does not hold in QL. It is possible for the sentence $\forall x(Mx \eif Sx)$ to be true even though the sentence $\exists x(Mx \eand Sx)$ is false.
+It is tempting to say that sentence \ref{monkey1} entails sentence \ref{monkey2}; that is: if every monkey knows sign language, then it must be that some monkey knows sign language. This is a valid inference in Aristotelian logic: All $M$s are $S$, \therefore\ some $M$ is $S$. However, the entailment does not hold in QL. It is possible for the sentence $\forall x(Mx \eif Sx)$ to be true even though the sentence $\exists x(Mx \eand Sx)$ is false.
 
 How can this be? The answer comes from considering whether these sentences would be true or false \emph{if there were no monkeys}.
 
@@ -636,13 +636,13 @@ A {sentence} is something that can be either true or false. In SL, every wff was
 \item[Lxy:] $x$ loves $y$
 \item[b:] Boris
 \end{ekey}
-Consider the expression $Lzz$. It is an atomic forumula: a two-place predicate followed by two terms. All atomic formula are wffs, so $Lzz$ is a wff. Does it mean anything? You might think that it means that $z$ loves himself, in the same way that $Lbb$ means that Boris loves himself. Yet $z$ is a variable; it does not name some person the way a constant would. The wff $Lzz$ does not tell us how to interpret $z$. Does it mean everyone? anyone? someone? If we had a z-quantifier, it would tell us how to interpret $z$. For instance, $\exists zLzz$ would mean that someone loves themselves.
+Consider the expression $Lzz$. It is an atomic formula: a two-place predicate followed by two terms. All atomic formula are wffs, so $Lzz$ is a wff. Does it mean anything? You might think that it means that $z$ loves himself, in the same way that $Lbb$ means that Boris loves himself. Yet $z$ is a variable; it does not name some person the way a constant would. The wff $Lzz$ does not tell us how to interpret $z$. Does it mean everyone? anyone? someone? If we had a z-quantifier, it would tell us how to interpret $z$. For instance, $\exists zLzz$ would mean that someone loves themselves.
 
 Some formal languages treat a wff like $Lzz$ as implicitly having a universal quantifier in front. We will not do this for QL. If you mean to say that everyone loves themself, then you need to write the quantifier: $\forall zLzz$
 
 In order to make sense of a variable, we need a quantifier to tell us how to interpret that variable. The scope of an x-quantifier, for instance, is the part of the formula where the quantifier tells how to interpret $x$.
 
-In order to be precise about this, we define a \define{bound variable} to be an occurrence of a variable \script{x} that is within the scope of an \script{x}-quantifier. A \define{free variable} is an occurance of a variable that is not bound.
+In order to be precise about this, we define a \define{bound variable} to be an occurrence of a variable \script{x} that is within the scope of an \script{x}-quantifier. A \define{free variable} is an occurrence of a variable that is not bound.
 
 For example, consider the wff $\forall x(Ex \eor Dy) \eif \exists z(Ex \eif Lzx)$. The scope of the universal quantifier $\forall x$ is $(Ex \eor Dy)$, so the first $x$ is bound by the universal quantifier but the second and third $x$s are free. There is not y-quantifier, so the $y$ is free. The scope of the existential quantifier $\exists z$ is $(Ex \eif Lzx)$, so both occurrences of $z$ are bound by it.
 
